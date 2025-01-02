@@ -1,4 +1,4 @@
-package com.example.anotes.room
+package com.example.anotes.db_notes
 
 import android.content.Context
 import androidx.room.Room
