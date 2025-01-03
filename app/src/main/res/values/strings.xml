@@ -5,4 +5,7 @@
     <string name="new_note">New note</string>
     <string name="str_search_note">Search Note</string>
     <string name="str_delete_notes">Delete notes</string>
+    <string name="str_save_note">Save note\n</string>
+    <string name="str_delete_note">Delete this note</string>
+    <string name="str_back">Back</string>
 </resources>
