@@ -8,4 +8,7 @@
     <string name="str_save_note">Save note\n</string>
     <string name="str_delete_note">Delete this note</string>
     <string name="str_back">Back</string>
+    <string name="str_seeking">Seeking</string>
+    <string name="search_button_description">Search button</string>
+    <string name="home_button_description">Home button</string>
 </resources>

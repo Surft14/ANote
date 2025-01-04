@@ -40,9 +40,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.newNote -> {
+            R.id.menuNewNote -> {
                 // Переход на NoteActivity
                 val intent = Intent(this, NoteActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.menuSearchNote ->{
+                // Переход на SearchActivity
+                val  intent = Intent(this, SearchActivity::class.java)
                 startActivity(intent)
                 return true
             }
