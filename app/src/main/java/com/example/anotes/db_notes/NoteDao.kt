@@ -1,5 +1,6 @@
 package com.example.anotes.db_notes
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
@@ -7,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 //Каждый метод должен быть связанн с SQL запросами через аннотацию
 interface NoteDao {
     @Query("SELECT * FROM notes ORDER BY timeStamp DESC")//SQL запрос
-    fun getAllNotes(): Flow<List<Note>>//Получить все заметки
+    fun getAllNotes(): LiveData<List<Note>>//Получить все заметки
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)//SQL запрос Если будет заметка с такимже id то произайдет замена
     suspend fun insert(note: Note)//Добавить новую заметку

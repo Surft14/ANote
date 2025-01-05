@@ -1,6 +1,7 @@
 package com.example.anotes.model
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import com.example.anotes.db_notes.DatabaseProvider
 import com.example.anotes.db_notes.Note
 import kotlinx.coroutines.flow.Flow
@@ -9,7 +10,7 @@ class NoteRepository(private val context: Context) {
 
     private val noteDao = DatabaseProvider.getDatabase(context).noteDao()
     //Получаме всех данных
-    fun getAllNotes(): Flow<List<Note>> {
+    fun getAllNotes(): LiveData<List<Note>> {
         return noteDao.getAllNotes()
     }
     //вставляет новую информацию
@@ -46,10 +47,4 @@ class NoteRepository(private val context: Context) {
 
 }
 
-//Пример обработки
-/*
-val result = repository.insertNote(note)
-when (result) {
-    is OperationResult.Success -> println("Операция прошла успешно")
-    is OperationResult.Error -> println("Ошибка: ${result.exception.message}")
-}*/
+
