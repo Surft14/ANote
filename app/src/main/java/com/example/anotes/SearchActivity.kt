@@ -1,6 +1,7 @@
 package com.example.anotes
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import com.example.anotes.databinding.ActivitySearchBinding
 class SearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchBinding
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("MyLog", "onCreate SearchActivity")
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivitySearchBinding.inflate(layoutInflater)
@@ -23,6 +25,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     fun onClickHome(view: View){//Кнопка закрывающая нынешние активити
+        Log.d("MyLog", "onClickHome SearchActivity")
         finish()
     }
 

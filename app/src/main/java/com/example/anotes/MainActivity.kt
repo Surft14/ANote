@@ -2,6 +2,7 @@ package com.example.anotes
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
@@ -14,6 +15,7 @@ import com.example.anotes.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("MyLog", "onCreate MainActivity")
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        Log.d("MyLog", "onCreateOptionsMenu MainActivity")
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
@@ -42,12 +45,14 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.menuNewNote -> {
                 // Переход на NoteActivity
+                Log.d("MyLog", "menuNewNote MainActivity")
                 val intent = Intent(this, NoteActivity::class.java)
                 startActivity(intent)
                 return true
             }
             R.id.menuSearchNote ->{
                 // Переход на SearchActivity
+                Log.d("MyLog", "menuSearchNote MainActivity")
                 val  intent = Intent(this, SearchActivity::class.java)
                 startActivity(intent)
                 return true

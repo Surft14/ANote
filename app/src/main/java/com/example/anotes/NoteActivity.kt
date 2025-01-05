@@ -1,6 +1,7 @@
 package com.example.anotes
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
@@ -14,6 +15,7 @@ import com.example.anotes.databinding.ActivityNoteBinding
 class NoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNoteBinding
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("MyLog", "onCreate NoteActivity")
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
@@ -36,6 +38,7 @@ class NoteActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        Log.d("MyLog", "onCreateOptionsMenu NoteActivity")
         menuInflater.inflate(R.menu.note_menu, menu)
         return true
     }
@@ -44,6 +47,7 @@ class NoteActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
+                Log.d("MyLog", "click home NoteActivity")
                 finish() // Закрыть текущую Activity
                 true
             }
