@@ -3,7 +3,7 @@ package com.example.anotes.db_notes
 import android.content.Context
 import android.util.Log
 import androidx.room.Room
-//
+//Через него получаем доступ к базе и инициализируем базу данных
 object DatabaseProvider {
     private var instance: AppDatabase? = null
 
