@@ -11,4 +11,7 @@
     <string name="str_seeking">Seeking</string>
     <string name="search_button_description">Search button</string>
     <string name="home_button_description">Home button</string>
+    <string name="str_empty_tittle">tittle</string>
+    <string name="str_start_date">00.00.000</string>
+    <string name="str_start_id">0</string>
 </resources>

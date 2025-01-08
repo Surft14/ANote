@@ -1,13 +1,12 @@
 package com.example.anotes
 
-import android.os.Build
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -49,13 +48,24 @@ class NoteActivity : AppCompatActivity() {
 
         // Включение стрелки назад
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back) // Опционально
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // Работа с UI
+        noteViewModel.getAllNotes().observe(this) { notes ->
+            // Обновляем список заметок
+            updateRecyclerView(notes)
+        }
+        
+    }
+
+    private fun updateRecyclerView(notes: List<Note>?): List<Note> {
+        return TODO()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -65,7 +75,7 @@ class NoteActivity : AppCompatActivity() {
     }
 
     // Обработка нажатия на стрелку назад
-    @RequiresApi(Build.VERSION_CODES.O)
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
@@ -82,10 +92,19 @@ class NoteActivity : AppCompatActivity() {
                     time = LocalTime.now(),
                     timeStamp = System.currentTimeMillis(), // Текущее время
                 )
+                noteViewModel.insertNote(note)
+
+                val intent = Intent()
+                intent.putExtra("note", note)
+                setResult(RESULT_OK, intent)
+                finish()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+
+
 
 }
