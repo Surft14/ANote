@@ -4,11 +4,12 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import com.example.anotes.db_notes.DatabaseProvider
 import com.example.anotes.db_notes.Note
+import com.example.anotes.db_notes.NoteDao
 import kotlinx.coroutines.flow.Flow
 //Единая точка сопрекосновеняи с данными из базой данных
-class NoteRepository(private val context: Context) {
+class NoteRepository(private val noteDao : NoteDao) {
 
-    private val noteDao = DatabaseProvider.getDatabase(context).noteDao()
+
     //Получаме всех данных
     fun getAllNotes(): LiveData<List<Note>> {
         return noteDao.getAllNotes()

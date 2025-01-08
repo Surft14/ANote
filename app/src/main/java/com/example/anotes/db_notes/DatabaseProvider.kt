@@ -10,10 +10,10 @@ object DatabaseProvider {
     fun getDatabase(context: Context): AppDatabase{
         Log.d("MyLog", "DatabaseProvider getDatabase")
         if (instance == null){
-            synchronized(AppDatabase::class){//Синхронизация для потокабезопасности
-                instance = Room.databaseBuilder(//Создание экземпляра базы данных
-                    context.applicationContext,//Использует глобальный контекст приложения
-                    AppDatabase::class.java,//Указывает класс базы данных
+            synchronized(AppDatabase::class){// Синхронизация для потокабезопасности
+                instance = Room.databaseBuilder(// Создание экземпляра базы данных
+                    context.applicationContext,// Использует глобальный контекст приложения
+                    AppDatabase::class.java,// Указывает класс базы данных
                     "app_db_notes",// Имя базы данных
                 ).build()
             }
