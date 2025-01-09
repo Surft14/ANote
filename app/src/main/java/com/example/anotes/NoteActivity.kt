@@ -81,6 +81,7 @@ class NoteActivity : AppCompatActivity() {
                     timeStamp = System.currentTimeMillis(), // Текущее время
                 )
                 noteViewModel.insertNote(note)
+                finish()
                 true
             }
             else -> super.onOptionsItemSelected(item)

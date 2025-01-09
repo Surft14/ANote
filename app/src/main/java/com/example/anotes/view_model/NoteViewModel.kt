@@ -20,13 +20,17 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
     }
 
     // Функция для добавления заметки
-    fun insertNote(note: Note) {
+    fun insertNote(note: Note){
         Log.d("MyLog", "NoteViewModel: insertNote start")
         viewModelScope.launch {
-            val result = repository.insertNote(note)
+           val result = repository.insertNote(note)
             when (result){
-                is OperationResult.Success -> Log.d("MyLog", "NoteViewModel: insertNote success")
-                is OperationResult.Error -> Log.d("MyLog", "NoteViewModel: insertNote error: ${result.exception.message}}")
+                is OperationResult.Success -> {
+                    Log.d("MyLog", "NoteViewModel: insertNote success")
+                }
+                is OperationResult.Error -> {
+                    Log.d("MyLog", "NoteViewModel: insertNote error: ${result.exception.message}}")
+                }
             }
         }
     }
@@ -37,8 +41,12 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
         viewModelScope.launch {
             val result = repository.deleteNote(note)
             when (result){
-                is OperationResult.Success -> Log.d("MyLog", "NoteViewModel: deleteNote success")
-                is OperationResult.Error -> Log.d("MyLog", "NoteViewModel: deleteNote error: ${result.exception.message}}")
+                is OperationResult.Success -> {
+                    Log.d("MyLog", "NoteViewModel: deleteNote success")
+                }
+                is OperationResult.Error -> {
+                    Log.d("MyLog", "NoteViewModel: deleteNote error: ${result.exception.message}}")
+                }
             }
         }
     }
@@ -49,8 +57,12 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
         viewModelScope.launch {
             val result = repository.updateNote(note)
             when (result){
-                is OperationResult.Success -> Log.d("MyLog", "NoteViewModel: updateNote success")
-                is OperationResult.Error -> Log.d("MyLog", "NoteViewModel: updateNote error: ${result.exception.message}}")
+                is OperationResult.Success -> {
+                    Log.d("MyLog", "NoteViewModel: updateNote success")
+                }
+                is OperationResult.Error -> {
+                    Log.d("MyLog", "NoteViewModel: updateNote error: ${result.exception.message}}")
+                }
             }
         }
     }
