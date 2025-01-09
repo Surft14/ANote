@@ -7,17 +7,23 @@ import androidx.room.Room
 object DatabaseProvider {
     private var instance: AppDatabase? = null
 
-    fun getDatabase(context: Context): AppDatabase{
-        Log.d("MyLog", "DatabaseProvider getDatabase")
+    fun initializeDatabase(context: Context){
+        Log.d("MyLog", "DatabaseProvider: Starting database initialization")
         if (instance == null){
+            Log.d("MyLog", "DatabaseProvider: Synchronization block entered")
             synchronized(AppDatabase::class){// Синхронизация для потокабезопасности
+                Log.d("MyLog", "DatabaseProvider: start databaseBuilder")
                 instance = Room.databaseBuilder(// Создание экземпляра базы данных
                     context.applicationContext,// Использует глобальный контекст приложения
                     AppDatabase::class.java,// Указывает класс базы данных
                     "app_db_notes",// Имя базы данных
                 ).build()
+                Log.d("MyLog", "DatabaseProvider: Database built successfully")
             }
         }
-        return instance!!
+    }
+    fun getDatabase(): AppDatabase {
+        Log.d("MyLog", "DatabaseProvider getDatabase")
+        return instance ?: throw IllegalStateException("Database not initialized. Call initialize() first.")
     }
 }

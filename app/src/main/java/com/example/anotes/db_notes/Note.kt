@@ -13,6 +13,6 @@ data class Note(
     val date: String,//Столбец для даты
     val time: String,//Столбец для времени
     val timeStamp: Long,//Столбец для времени
-    val listTag: ArrayList<String>? = null,//Столбец для списка тегов по умолчанию их нет
+    val listTag: String? = null,//Столбец для списка тегов по умолчанию их нет
     val category: String = "general",//Столбец для категорий по умолчанию general
 ): Serializable
