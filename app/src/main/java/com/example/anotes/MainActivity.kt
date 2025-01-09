@@ -25,21 +25,12 @@ import com.example.anotes.view_model.NoteViewModelFactory
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var adapter = NoteAdapter()
-    private var editLauncher: ActivityResultLauncher<Intent>? = null
-    private lateinit var noteViewModel: NoteViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("MyLog", "onCreate MainActivity")
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val repository = NoteRepository(DatabaseProvider.getDatabase(applicationContext).noteDao())
-
-        //Получаем ViewModel
-        // Использование ViewModelFactory
-        val factory = NoteViewModelFactory(repository)
-        noteViewModel = ViewModelProvider(this, factory).get(NoteViewModel::class.java)
 
         // Установите Toolbar
         val toolbar = findViewById<Toolbar>(R.id.tbMain)
@@ -52,22 +43,8 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        noteViewModel.getAllNotes().observe(this) { note ->
-            // Обновляем список заметок
-            editLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-                if (it.resultCode == RESULT_OK){
-                    updateRecyclerView(it.data?.getSerializableExtra("note") as Note)
-                }
-            }
-        }
-
-
-
     }
 
-    private fun updateRecyclerView(note: Note) {
-        adapter.addNote(note)
-    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         Log.d("MyLog", "onCreateOptionsMenu MainActivity")
@@ -80,7 +57,8 @@ class MainActivity : AppCompatActivity() {
             R.id.menuNewNote -> {
                 // Переход на NoteActivity
                 Log.d("MyLog", "menuNewNote MainActivity")
-                editLauncher?.launch(Intent(this@MainActivity, NoteActivity::class.java))
+                val intent = Intent(this@MainActivity, NoteActivity::class.java)
+                startActivity(intent)
                 return true
             }
             R.id.menuSearchNote ->{
@@ -92,12 +70,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun init(){
-        binding.rvListNotes.layoutManager = GridLayoutManager(this@MainActivity, 1)
-        binding.rvListNotes.adapter = adapter
-
     }
 
 }
