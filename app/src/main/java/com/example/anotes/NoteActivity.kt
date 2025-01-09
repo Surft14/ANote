@@ -71,7 +71,7 @@ class NoteActivity : AppCompatActivity() {
                 finish() // Закрыть текущую Activity
                 true
             }
-            R.id.menuNewNote ->{
+            R.id.noteMenuSaveNote ->{
                 Log.d("MyLog", "NoteActivity: click home")
                 val note = Note(
                     title = binding.edTitle.text.toString(),
@@ -80,6 +80,7 @@ class NoteActivity : AppCompatActivity() {
                     time = LocalTime.now().toString(),
                     timeStamp = System.currentTimeMillis(), // Текущее время
                 )
+                noteViewModel.insertNote(note)
                 true
             }
             else -> super.onOptionsItemSelected(item)

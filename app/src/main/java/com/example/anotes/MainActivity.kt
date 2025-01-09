@@ -7,20 +7,11 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import com.example.anotes.databinding.ActivityMainBinding
-import com.example.anotes.db_notes.DatabaseProvider
-import com.example.anotes.db_notes.Note
-import com.example.anotes.model.NoteRepository
 import com.example.anotes.view_model.NoteAdapter
-import com.example.anotes.view_model.NoteViewModel
-import com.example.anotes.view_model.NoteViewModelFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -54,14 +45,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menuNewNote -> {
+            R.id.mainMenuNewNote -> {
                 // Переход на NoteActivity
                 Log.d("MyLog", "menuNewNote MainActivity")
                 val intent = Intent(this@MainActivity, NoteActivity::class.java)
                 startActivity(intent)
                 return true
             }
-            R.id.menuSearchNote ->{
+            R.id.mainMenuSearchNote ->{
                 // Переход на SearchActivity
                 Log.d("MyLog", "menuSearchNote MainActivity")
                 val  intent = Intent(this, SearchActivity::class.java)

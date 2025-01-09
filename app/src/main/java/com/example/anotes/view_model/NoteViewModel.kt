@@ -21,6 +21,7 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
 
     // Функция для добавления заметки
     fun insertNote(note: Note) {
+        Log.d("MyLog", "NoteViewModel: insertNote start")
         viewModelScope.launch {
             val result = repository.insertNote(note)
             when (result){
@@ -32,6 +33,7 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
 
     // Функция для удаления заметки
     fun deleteNote(note: Note) {
+        Log.d("MyLog", "NoteViewModel: deleteNote start")
         viewModelScope.launch {
             val result = repository.deleteNote(note)
             when (result){
@@ -43,6 +45,7 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
 
     // Функция для обновления заметки
     fun updateNote(note: Note) {
+        Log.d("MyLog", "NoteViewModel: updateNote start")
         viewModelScope.launch {
             val result = repository.updateNote(note)
             when (result){
