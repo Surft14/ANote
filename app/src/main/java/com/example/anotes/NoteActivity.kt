@@ -1,12 +1,14 @@
 package com.example.anotes
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -19,7 +21,6 @@ import com.example.anotes.view_model.NoteViewModel
 import com.example.anotes.view_model.NoteViewModelFactory
 import java.time.LocalDate
 import java.time.LocalTime
-
 
 class NoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNoteBinding
@@ -76,6 +77,7 @@ class NoteActivity : AppCompatActivity() {
 
     // Обработка нажатия на стрелку назад
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
@@ -88,14 +90,15 @@ class NoteActivity : AppCompatActivity() {
                 val note = Note(
                     title = binding.edTitle.text.toString(),
                     content = binding.edContent.text.toString(),
-                    date = LocalDate.now(),
-                    time = LocalTime.now(),
+                    date = LocalDate.now().toString(),
+                    time = LocalTime.now().toString(),
                     timeStamp = System.currentTimeMillis(), // Текущее время
                 )
                 noteViewModel.insertNote(note)
 
-                val intent = Intent()
-                intent.putExtra("note", note)
+                val editIntent = Intent().apply {
+                    putExtra("note", note)
+                }
                 setResult(RESULT_OK, intent)
                 finish()
                 true
