@@ -1,5 +1,7 @@
 package com.example.anotes
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import com.example.anotes.constant.Constant
 import com.example.anotes.databinding.ActivityNoteBinding
 import com.example.anotes.db_notes.DatabaseProvider
 import com.example.anotes.db_notes.Note
@@ -26,7 +29,7 @@ class NoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNoteBinding
     private lateinit var noteViewModel: NoteViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("MyLog", "NoteActivity: onCreate")
+        Log.d("MyLog", "NoteActivity: onCreate start")
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
@@ -54,6 +57,7 @@ class NoteActivity : AppCompatActivity() {
         // Использование ViewModelFactory
         val factory = NoteViewModelFactory(repository)
         noteViewModel = ViewModelProvider(this, factory).get(NoteViewModel::class.java)
+        Log.d("MyLog", "NoteActivity: onCreate finish")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -81,6 +85,9 @@ class NoteActivity : AppCompatActivity() {
                     timeStamp = System.currentTimeMillis(), // Текущее время
                 )
                 noteViewModel.insertNote(note)
+                val intent = Intent()
+                intent.putExtra(Constant.keyNote, note)
+                setResult(Activity.RESULT_OK, intent)
                 finish()
                 true
             }
