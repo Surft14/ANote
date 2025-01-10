@@ -7,7 +7,7 @@ import java.io.Serializable
 @Entity(tableName = "notes")//Это аннотация специальная метка добовляющая метаинформацию к классу или методу
 //Он создает таблице с именим notes
 data class Note(
-    @PrimaryKey(autoGenerate = true)val id: Int = 0,//Первичный ключ с авто инкриментом
+    @PrimaryKey(autoGenerate = true)val id: Int? = null,//Первичный ключ с авто инкриментом
     val title: String,//Столбец для загаловка
     val content: String,//Столбец для содержания
     val date: String,//Столбец для даты

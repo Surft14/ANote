@@ -52,8 +52,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun toastCall(note: Note){
-        Log.d("MyLog", "call function: toastCall")
+        Log.d("MyLog", "Call function: toastCall")
         Toast.makeText(this, "Note received: id-${note.id}, tittle-${note.title}, time-${note.time}", Toast.LENGTH_LONG).show()
+        Log.i("MyLog", "Result: id-${note.id}, tittle-${note.title}, time-${note.time}")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
