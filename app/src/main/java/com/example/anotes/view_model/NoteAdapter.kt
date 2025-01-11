@@ -15,7 +15,7 @@ class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
         fun bind(note: Note){
             binding.tvTitle.text = note.title
             binding.tvID.text = note.id.toString()
-            binding.tvDate.text = note.date.toString()
+            binding.tvDate.text = note.date
         }
     }
 
@@ -36,6 +36,4 @@ class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
         noteList.add(note)
         notifyDataSetChanged()
     }
-
-
 }

@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.anotes.constant.Constant
 import com.example.anotes.databinding.ActivityMainBinding
 import com.example.anotes.db_notes.Note
@@ -40,11 +41,12 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        init()
         noteLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
             if (result.resultCode == Activity.RESULT_OK){
                 Log.d("MyLog", "MainActivity: received result from NoteActivity: result_ok")
                 note = result.data?.getSerializableExtra(Constant.keyNote) as Note
+                updateRV(note)
                 toastCall(note)
             }
             else if(result.resultCode == Activity.RESULT_CANCELED){
@@ -55,14 +57,27 @@ class MainActivity : AppCompatActivity() {
         Log.d("MyLog", "MainActivity: onCreate finish")
     }
 
-    fun toastCall(note: Note){
-        Log.d("MyLog", "Call function: toastCall")
+    private fun toastCall(note: Note){
+        Log.d("MyLog", "Call function in MainActivity: toastCall")
         Toast.makeText(this, "Note received: id-${note.id}, tittle-${note.title}, time-${note.time}", Toast.LENGTH_LONG).show()
         Log.i("MyLog", "Result: id-${note.id} tittle-${note.title}, time-${note.time}, date-${note.date}")
     }
-    fun toastErrorCall(){
-        Log.d("MyLog", "Call function: toastCall")
+    private fun toastErrorCall(){
+        Log.d("MyLog", "Call function in MainActivity: toastCall")
         Toast.makeText(this, "Note received: Error", Toast.LENGTH_LONG).show()
+    }
+
+    private fun init(){
+        Log.d("MyLog", "Call function in MainActivity: init")
+        binding.apply {
+            rvListNotes.layoutManager = GridLayoutManager(this@MainActivity, 1)
+            rvListNotes.adapter = adapter
+        }
+    }
+
+    private fun updateRV(note: Note){
+        Log.d("MyLog", "Call function in MainActivity: updateRV")
+        adapter.addNote(note)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

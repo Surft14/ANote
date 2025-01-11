@@ -88,23 +88,6 @@ class NoteActivity : AppCompatActivity() {
                     timeStamp = System.currentTimeMillis(), // Текущее время
                 )
 
-                /*
-                val result = noteViewModel.insertResult
-                val intent = Intent()
-                intent.putExtra(Constant.keyNote, note)
-
-                when(result){
-                    is OperationResult.Success ->{
-                        setResult(Activity.RESULT_OK, intent)
-                    }
-                    is OperationResult.Error -> {
-                        setResult(Activity.RESULT_CANCELED, intent)
-                    }
-                    else ->{
-                        setResult(Activity.RESULT_CANCELED, intent)
-                    }
-                }
-                finish()*/
                 noteViewModel.insertNote(note)
                 noteViewModel.insertResult.observe(this) { result ->
                     when (result) {
