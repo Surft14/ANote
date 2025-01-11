@@ -54,7 +54,6 @@ class NoteActivity : AppCompatActivity() {
         Log.d("MyLog", "NoteActivity: Start Create ViewModel")
         // Создание репозитория
         val repository = NoteRepository(DatabaseProvider.getDatabase().noteDao())
-
         //Получаем ViewModel
         // Использование ViewModelFactory
         val factory = NoteViewModelFactory(repository)

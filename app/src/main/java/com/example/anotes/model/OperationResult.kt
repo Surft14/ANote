@@ -12,3 +12,12 @@ when (result) {
     is OperationResult.Success -> println("Операция прошла успешно")
     is OperationResult.Error -> println("Ошибка: ${result.exception.message}")
 }*/
+//Пример отправки результата
+/*
+return try{
+    noteDao.delete(note)
+    OperationResult.Success(-1) // Операция прошла успешно
+}
+catch (e: Exception){
+    OperationResult.Error(e) // Возвращаем ошибку
+}*/
