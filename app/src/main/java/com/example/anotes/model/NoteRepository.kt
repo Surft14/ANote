@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import com.example.anotes.db_notes.Note
 import com.example.anotes.db_notes.NoteDao
 //Единая точка сопрекосновеняи с данными из базой данных
+@Suppress("UNREACHABLE_CODE")
 class NoteRepository(private val noteDao : NoteDao) {
 
 
@@ -15,13 +16,15 @@ class NoteRepository(private val noteDao : NoteDao) {
     }
     //вставляет новую информацию
     suspend fun insertNote(note: Note): OperationResult {
+        val newId: Long
         Log.d("MyLog", "NoteRepository: insertNote")
-        return try {
-            noteDao.insert(note)
-            OperationResult.Success // Операция прошла успешно
+        try {
+            newId = noteDao.insert(note)
+            Log.i("MyLog", "NoteRepository: newID - $newId")
+            return OperationResult.Success(newId.toInt())// Операция прошла успешно
         }
         catch (e: Exception){
-            OperationResult.Error(e)// Возвращаем ошибку
+            return OperationResult.Error(e)// Возвращаем ошибку
         }
 
     }
@@ -30,7 +33,7 @@ class NoteRepository(private val noteDao : NoteDao) {
         Log.d("MyLog", "NoteRepository: deleteNote")
         return try{
             noteDao.delete(note)
-            OperationResult.Success // Операция прошла успешно
+            OperationResult.Success(-1) // Операция прошла успешно
         }
         catch (e: Exception){
             OperationResult.Error(e) // Возвращаем ошибку
@@ -41,7 +44,7 @@ class NoteRepository(private val noteDao : NoteDao) {
         Log.d("MyLog", "NoteRepository: updateNote")
         return  try {
             noteDao.update(note)
-            OperationResult.Success // Операция прошла успешно
+            OperationResult.Success(-1) // Операция прошла успешно
         }
         catch (e: Exception){
             OperationResult.Error(e) // Возвращаем ошибку

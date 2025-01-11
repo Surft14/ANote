@@ -14,11 +14,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.room.util.copy
 import com.example.anotes.constant.Constant
 import com.example.anotes.databinding.ActivityNoteBinding
 import com.example.anotes.db_notes.DatabaseProvider
 import com.example.anotes.db_notes.Note
 import com.example.anotes.model.NoteRepository
+import com.example.anotes.model.OperationResult
 import com.example.anotes.view_model.NoteViewModel
 import com.example.anotes.view_model.NoteViewModelFactory
 import java.time.LocalDate
@@ -49,7 +51,7 @@ class NoteActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        Log.d("MyLog", "NoteActivity: Start Create ViewModel")
         // Создание репозитория
         val repository = NoteRepository(DatabaseProvider.getDatabase().noteDao())
 
@@ -57,11 +59,12 @@ class NoteActivity : AppCompatActivity() {
         // Использование ViewModelFactory
         val factory = NoteViewModelFactory(repository)
         noteViewModel = ViewModelProvider(this, factory).get(NoteViewModel::class.java)
+        Log.d("MyLog", "NoteActivity: end Create ViewModel")
         Log.d("MyLog", "NoteActivity: onCreate finish")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        Log.d("MyLog", "onCreateOptionsMenu: NoteActivity")
+        Log.d("MyLog", "NoteActivity: onCreateOptionsMenu")
         menuInflater.inflate(R.menu.note_menu, menu)
         return true
     }
@@ -84,11 +87,42 @@ class NoteActivity : AppCompatActivity() {
                     time = LocalTime.now().toString(),
                     timeStamp = System.currentTimeMillis(), // Текущее время
                 )
-                noteViewModel.insertNote(note)
+
+                /*
+                val result = noteViewModel.insertResult
                 val intent = Intent()
                 intent.putExtra(Constant.keyNote, note)
-                setResult(Activity.RESULT_OK, intent)
-                finish()
+
+                when(result){
+                    is OperationResult.Success ->{
+                        setResult(Activity.RESULT_OK, intent)
+                    }
+                    is OperationResult.Error -> {
+                        setResult(Activity.RESULT_CANCELED, intent)
+                    }
+                    else ->{
+                        setResult(Activity.RESULT_CANCELED, intent)
+                    }
+                }
+                finish()*/
+                noteViewModel.insertNote(note)
+                noteViewModel.insertResult.observe(this) { result ->
+                    when (result) {
+                        is OperationResult.Success -> {
+                            val newNote = note.copy(id = result.newId)
+                            val intent = Intent().apply {
+                                putExtra(Constant.keyNote, newNote)
+                            }
+                            setResult(Activity.RESULT_OK, intent)
+                            finish()
+                        }
+                        is OperationResult.Error -> {
+                            Log.e("MyLog", "NoteActivity: Error inserting note: ${result.exception.message}")
+                            setResult(Activity.RESULT_CANCELED)
+                            finish()
+                        }
+                    }
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)

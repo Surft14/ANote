@@ -11,7 +11,7 @@ interface NoteDao {
     fun getAllNotes(): LiveData<List<Note>>//Получить все заметки
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)//SQL запрос Если будет заметка с такимже id то произайдет замена
-    suspend fun insert(note: Note)//Добавить новую заметку
+    suspend fun insert(note: Note): Long//Добавить новую заметку
 
     @Update//SQL запрос
     suspend fun update(note: Note)//Обноление существующей заметки

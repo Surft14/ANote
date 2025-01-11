@@ -17,13 +17,15 @@ object DatabaseProvider {
                     context.applicationContext,// Использует глобальный контекст приложения
                     AppDatabase::class.java,// Указывает класс базы данных
                     "app_db_notes",// Имя базы данных
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 Log.d("MyLog", "DatabaseProvider: Database built successfully")
             }
         }
     }
     fun getDatabase(): AppDatabase {
-        Log.d("MyLog", "DatabaseProvider getDatabase")
+        Log.d("MyLog", "DatabaseProvider: getDatabase")
         return instance ?: throw IllegalStateException("Database not initialized. Call initialize() first.")
     }
 }

@@ -2,6 +2,7 @@ package com.example.anotes.view_model
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.anotes.db_notes.Note
@@ -12,8 +13,10 @@ import kotlinx.coroutines.launch
 
 class NoteViewModel(private val repository: NoteRepository):ViewModel() {
 
-    // Получение списка заметок через LiveData
+    private val _insertResult = MutableLiveData<OperationResult>()
+    val insertResult: LiveData<OperationResult> = _insertResult
 
+    // Получение списка заметок через LiveData
     fun getAllNotes(): LiveData<List<Note>>{
         Log.d("MyLog", "NoteViewModel: getAllNotes")
         return repository.getAllNotes()
@@ -24,12 +27,13 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
         Log.d("MyLog", "NoteViewModel: insertNote start")
         viewModelScope.launch {
            val result = repository.insertNote(note)
+            _insertResult.value = result
             when (result){
                 is OperationResult.Success -> {
                     Log.d("MyLog", "NoteViewModel: insertNote success")
                 }
                 is OperationResult.Error -> {
-                    Log.d("MyLog", "NoteViewModel: insertNote error: ${result.exception.message}}")
+                    Log.e("MyLog", "NoteViewModel: insertNote error: ${result.exception.message}}")
                 }
             }
         }

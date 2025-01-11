@@ -43,9 +43,13 @@ class MainActivity : AppCompatActivity() {
 
         noteLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
             if (result.resultCode == Activity.RESULT_OK){
-                Log.d("MyLog", "received result from NoteActivity: result_ok")
+                Log.d("MyLog", "MainActivity: received result from NoteActivity: result_ok")
                 note = result.data?.getSerializableExtra(Constant.keyNote) as Note
                 toastCall(note)
+            }
+            else if(result.resultCode == Activity.RESULT_CANCELED){
+                Log.e("MyLog", "MainActivity: received result from NoteActivity: result_canceled")
+                toastErrorCall()
             }
         }
         Log.d("MyLog", "MainActivity: onCreate finish")
@@ -54,11 +58,15 @@ class MainActivity : AppCompatActivity() {
     fun toastCall(note: Note){
         Log.d("MyLog", "Call function: toastCall")
         Toast.makeText(this, "Note received: id-${note.id}, tittle-${note.title}, time-${note.time}", Toast.LENGTH_LONG).show()
-        Log.i("MyLog", "Result: id-${note.id}, tittle-${note.title}, time-${note.time}")
+        Log.i("MyLog", "Result: id-${note.id} tittle-${note.title}, time-${note.time}, date-${note.date}")
+    }
+    fun toastErrorCall(){
+        Log.d("MyLog", "Call function: toastCall")
+        Toast.makeText(this, "Note received: Error", Toast.LENGTH_LONG).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        Log.d("MyLog", "onCreateOptionsMenu MainActivity")
+        Log.d("MyLog", "MainActivity: onCreateOptionsMenu")
         menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
@@ -67,14 +75,14 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.mainMenuNewNote -> {
                 // Переход на NoteActivity
-                Log.d("MyLog", "menuNewNote MainActivity")
+                Log.d("MyLog", "MainActivity: menuNewNote")
                 val intent = Intent(this@MainActivity, NoteActivity::class.java)
                 noteLauncher.launch(intent)
                 return true
             }
             R.id.mainMenuSearchNote ->{
                 // Переход на SearchActivity
-                Log.d("MyLog", "menuSearchNote MainActivity")
+                Log.d("MyLog", "MainActivity: menuSearchNote")
                 val  intent = Intent(this, SearchActivity::class.java)
                 startActivity(intent)
                 return true
