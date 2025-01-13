@@ -2,7 +2,6 @@ package com.example.anotes.db_notes
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import kotlinx.coroutines.flow.Flow
 
 @Dao//DAO (Data Access Object - Объект доступа к данным) здесь я описал интерфейс для SQl запросов
 //Каждый метод должен быть связанн с SQL запросами через аннотацию
@@ -18,4 +17,9 @@ interface NoteDao {
 
     @Delete//SQL запрос
     suspend fun delete(note: Note)//Удаление заметки
+
+
+    @Query("DELETE FROM notes WHERE id IN (:noteIds)")//SQL запрос
+    suspend fun deleteNotes(noteIds: List<Int?>)//Удаление всех заметок
+
 }

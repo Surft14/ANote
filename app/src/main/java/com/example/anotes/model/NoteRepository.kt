@@ -39,6 +39,16 @@ class NoteRepository(private val noteDao : NoteDao) {
             OperationResult.Error(e) // Возвращаем ошибку
         }
     }
+    // Удаление всех заметок
+    suspend fun deleteNotes(noteIds: List<Int?>): OperationResult {
+        return try {
+            noteDao.deleteNotes(noteIds)
+            OperationResult.Success(-1)
+        } catch (e: Exception) {
+            OperationResult.Error(e)
+        }
+    }
+
     //Обновление данных в базе
     suspend fun updateNote(note: Note): OperationResult{
         Log.d("MyLog", "NoteRepository: updateNote")

@@ -1,6 +1,7 @@
 package com.example.anotes
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -30,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private var adapter = NoteAdapter()
     private lateinit var noteLauncher: ActivityResultLauncher<Intent>
     private lateinit var note: Note
-    private var notes: List<Note>? = null
+    private lateinit var notes: List<Note>
     private lateinit var noteViewModel: NoteViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("MyLog", "MainActivity: onCreate start")
@@ -61,8 +63,8 @@ class MainActivity : AppCompatActivity() {
                 toastErrorCall()
             }
         }
-        Log.d("MyLog", "MainActivity: onCreate finish")
-        Log.d("MyLog", "NoteActivity: Start Create ViewModel")
+
+        Log.d("MyLog", "MainActivity: Start Create ViewModel")
 
         // Создание репозитория
         val repository = NoteRepository(DatabaseProvider.getDatabase().noteDao())
@@ -70,9 +72,10 @@ class MainActivity : AppCompatActivity() {
         // Использование ViewModelFactory
         val factory = NoteViewModelFactory(repository)
         noteViewModel = ViewModelProvider(this, factory).get(NoteViewModel::class.java)
-        Log.d("MyLog", "NoteActivity: end Create ViewModel")
+        Log.d("MyLog", "MainActivity: end Create ViewModel")
 
         init()
+        Log.d("MyLog", "MainActivity: onCreate finish")
     }
     //Всплывающие сообщение что заметка добавлина
     private fun toastCall(note: Note){
@@ -116,6 +119,30 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //Вызов диологово окна
+    fun showDeleteСonfirmationDialog(context: Context, onConfirm: () -> Unit){
+        Log.d("MyLog", "MainActivity: Call dialog in MainActivity")
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(R.string.str_question_title)
+        builder.setMessage(R.string.str_question_message)
+
+        // Кнопка Да
+        builder.setPositiveButton(R.string.str_yes){ dialog, _->
+            Log.d("MyLog", "MainActivity: user click YES in dialog windows")
+            onConfirm() // Вызов действия при подтверждении
+            dialog.dismiss() // Закрыть диалог
+        }
+
+        // Кнопка "Нет"
+        builder.setNegativeButton(R.string.str_no) { dialog, _ ->
+            Log.d("MyLog", "MainActivity: user click NO in dialog windows")
+            dialog.dismiss() // Закрыть диалог
+        }
+
+        // Создать и показать диалог
+        val dialog = builder.create()
+        dialog.show()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         Log.d("MyLog", "MainActivity: onCreateOptionsMenu")
@@ -137,6 +164,16 @@ class MainActivity : AppCompatActivity() {
                 Log.d("MyLog", "MainActivity: menuSearchNote")
                 val  intent = Intent(this, SearchActivity::class.java)
                 startActivity(intent)
+                return true
+            }
+            R.id.mainMenuDeleteNotes -> {
+                Log.d("MyLog", "MainActivity: mainMenuDeleteNotes")
+                showDeleteСonfirmationDialog(this){
+                    notes = adapter.getNoteList()
+                    notes.forEach { Log.d("MyLog", "Note to delete: id=${it.id}, title=${it.title}") }
+                    noteViewModel.deleteNotes(notes)
+                    adapter.clearAll()
+                }
                 return true
             }
         }

@@ -43,8 +43,7 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
     fun deleteNote(note: Note) {
         Log.d("MyLog", "NoteViewModel: deleteNote start")
         viewModelScope.launch {
-            val result = repository.deleteNote(note)
-            when (result){
+            when (val result = repository.deleteNote(note)){
                 is OperationResult.Success -> {
                     Log.d("MyLog", "NoteViewModel: deleteNote success")
                 }
@@ -55,12 +54,24 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
         }
     }
 
+    fun deleteNotes(notes: List<Note>) {
+        Log.d("MyLog", "NoteViewModel: deleteNotes start")
+        viewModelScope.launch {
+            val noteIds = notes.map { it.id } // Список ID заметок
+            when (val result = repository.deleteNotes(noteIds)) {
+                is OperationResult.Success -> Log.d("MyLog", "NoteViewModel: deleteNotes success")
+                is OperationResult.Error -> Log.d("MyLog", "NoteViewModel: deleteNotes error: ${result.exception.message}")
+            }
+        }
+    }
+
+
+
     // Функция для обновления заметки
     fun updateNote(note: Note) {
         Log.d("MyLog", "NoteViewModel: updateNote start")
         viewModelScope.launch {
-            val result = repository.updateNote(note)
-            when (result){
+            when (val result = repository.updateNote(note)){
                 is OperationResult.Success -> {
                     Log.d("MyLog", "NoteViewModel: updateNote success")
                 }

@@ -44,6 +44,10 @@ class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
         notifyDataSetChanged()
     }
 
+    fun getNoteList():ArrayList<Note>{
+        return noteList
+    }
+
     fun addNote(listNote: List<Note>){
         Log.d("MyLog", "NoteAdapter: addNote(List)")
         for (note in listNote){
@@ -54,6 +58,7 @@ class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
     }
 
     fun clearAll() {
+        Log.d("MyLog", "NoteAdapter: clearAll")
         noteList.clear() // Очистить список
         notifyDataSetChanged() // Сообщить адаптеру об изменениях
     }
