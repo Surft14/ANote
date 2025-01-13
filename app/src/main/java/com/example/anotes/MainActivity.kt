@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
     private lateinit var noteLauncher: ActivityResultLauncher<Intent>
     private lateinit var note: Note
     private lateinit var notes: List<Note>
+    private var listNoteForDel: ArrayList<Note>? = null
     private lateinit var noteViewModel: NoteViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("MyLog", "MainActivity: onCreate start")
@@ -159,6 +160,13 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
     override fun onNoteLongClick(note: Note): Boolean {
         Log.d("MyLog", "MainActivity: Call onNoteLongClick in MainActivity")
         Toast.makeText(this, "Long Clicked: ${note.id}, ${note.title}", Toast.LENGTH_SHORT).show()
+        Log.i("MyLog", "MainActivity: Long Clicked: ${note.id}, ${note.title} for delete!")
+        //Инициализация массива если он пуст
+        if (listNoteForDel == null){
+            listNoteForDel = ArrayList()
+        }
+
+        listNoteForDel?.add(note)
         return true
     }
 
@@ -181,9 +189,19 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
             R.id.mainMenuDeleteNotes -> {
                 Log.d("MyLog", "MainActivity: mainMenuDeleteNotes")
                 showDeleteСonfirmationDialog(this){
-                    adapter.getNoteList().forEach { Log.i("MyLog", "Note to delete: id=${it.id}, title=${it.title}") }
-                    noteViewModel.deleteAllNotesFromDB()
-                    adapter.clearAll()
+                    if(listNoteForDel == null){
+                        Log.d("MyLog", "MainActivity: Delete all notes")
+                        adapter.getNoteList().forEach { Log.i("MyLog", "Note to delete: id=${it.id}, title=${it.title}") }
+                        noteViewModel.deleteAllNotesFromDB()
+                        adapter.clearAll()
+                    } else {
+                        Log.d("MyLog", "MainActivity: Delete selected notes")
+                        Log.d("MyLog", "MainActivity: Notes for deletion: $listNoteForDel")
+                        noteViewModel.deleteNotes(listNoteForDel!!)
+                        adapter.clearAll()
+                        //adapter.removeNotes(listNoteForDel!!)
+                        listNoteForDel = null
+                    }
                 }
                 return true
             }

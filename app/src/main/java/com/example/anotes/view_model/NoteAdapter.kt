@@ -75,4 +75,14 @@ class NoteAdapter(private val listener: OnNoteClickListener): RecyclerView.Adapt
         noteList.clear() // Очистить список
         notifyDataSetChanged() // Сообщить адаптеру об изменениях
     }
+
+    fun removeNotes(notes: List<Note>){
+        Log.d("MyLog", "NoteAdapter: removeNotes")
+        notes.forEach { note ->
+            Log.i("MyLog", "Note to delete: id=${note.id}, title=${note.title}")
+            noteList.remove(note)
+        }
+
+    }
+
 }
