@@ -169,9 +169,8 @@ class MainActivity : AppCompatActivity() {
             R.id.mainMenuDeleteNotes -> {
                 Log.d("MyLog", "MainActivity: mainMenuDeleteNotes")
                 showDeleteСonfirmationDialog(this){
-                    notes = adapter.getNoteList()
-                    notes.forEach { Log.d("MyLog", "Note to delete: id=${it.id}, title=${it.title}") }
-                    noteViewModel.deleteNotes(notes)
+                    adapter.getNoteList().forEach { Log.i("MyLog", "Note to delete: id=${it.id}, title=${it.title}") }
+                    noteViewModel.deleteAllNotesFromDB()
                     adapter.clearAll()
                 }
                 return true

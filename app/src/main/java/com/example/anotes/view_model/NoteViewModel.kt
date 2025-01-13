@@ -53,7 +53,7 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
             }
         }
     }
-
+    // Функция удаления заметок
     fun deleteNotes(notes: List<Note>) {
         Log.d("MyLog", "NoteViewModel: deleteNotes start")
         viewModelScope.launch {
@@ -65,7 +65,15 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
         }
     }
 
-
+    fun deleteAllNotesFromDB(){
+        Log.d("MyLog", "NoteViewModel: deleteAllNotesFromDB start")
+        viewModelScope.launch {
+            when(val result = repository.deleteAllNotesFromDB()){
+                is OperationResult.Success -> Log.d("MyLog", "NoteViewModel: deleteAllNotesFromDB success")
+                is OperationResult.Error -> Log.d("MyLog", "NoteViewModel: deleteAllNotesFromDB error: ${result.exception.message}")
+            }
+        }
+    }
 
     // Функция для обновления заметки
     fun updateNote(note: Note) {

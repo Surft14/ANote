@@ -1,5 +1,6 @@
 package com.example.anotes.model
 
+import android.graphics.Path.Op
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.anotes.db_notes.Note
@@ -39,12 +40,23 @@ class NoteRepository(private val noteDao : NoteDao) {
             OperationResult.Error(e) // Возвращаем ошибку
         }
     }
-    // Удаление всех заметок
+    // Удаление заметок
     suspend fun deleteNotes(noteIds: List<Int?>): OperationResult {
         return try {
             noteDao.deleteNotes(noteIds)
             OperationResult.Success(-1)
         } catch (e: Exception) {
+            OperationResult.Error(e)
+        }
+    }
+    // Удаление всех заметок
+    suspend fun deleteAllNotesFromDB(): OperationResult{
+        return try {
+            noteDao.clearNotes()
+            noteDao.resetAutoIncrement()
+            OperationResult.Success(-1)
+        }
+        catch (e: Exception){
             OperationResult.Error(e)
         }
     }

@@ -22,4 +22,11 @@ interface NoteDao {
     @Query("DELETE FROM notes WHERE id IN (:noteIds)")//SQL запрос
     suspend fun deleteNotes(noteIds: List<Int?>)//Удаление всех заметок
 
+    @Query("DELETE FROM notes")
+    suspend fun clearNotes()
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = 'notes'")
+    suspend fun resetAutoIncrement()
+
+
 }
