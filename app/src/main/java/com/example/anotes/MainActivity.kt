@@ -26,10 +26,11 @@ import com.example.anotes.model.NoteRepository
 import com.example.anotes.view_model.NoteAdapter
 import com.example.anotes.view_model.NoteViewModel
 import com.example.anotes.view_model.NoteViewModelFactory
+import com.example.anotes.view_model.OnNoteClickListener
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnNoteClickListener {
     private lateinit var binding: ActivityMainBinding
-    private var adapter = NoteAdapter()
+    private var adapter = NoteAdapter(this)
     private lateinit var noteLauncher: ActivityResultLauncher<Intent>
     private lateinit var note: Note
     private lateinit var notes: List<Note>
@@ -147,6 +148,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         Log.d("MyLog", "MainActivity: onCreateOptionsMenu")
         menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onNoteClick(note: Note) {
+        Log.d("MyLog", "MainActivity: Call onNoteClick in MainActivity")
+        Toast.makeText(this, "Clicked: ${note.id}, ${note.title}", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onNoteLongClick(note: Note): Boolean {
+        Log.d("MyLog", "MainActivity: Call onNoteLongClick in MainActivity")
+        Toast.makeText(this, "Long Clicked: ${note.id}, ${note.title}", Toast.LENGTH_SHORT).show()
         return true
     }
 

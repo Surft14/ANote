@@ -9,15 +9,27 @@ import com.example.anotes.R
 import com.example.anotes.databinding.NoteItemBinding
 import com.example.anotes.db_notes.Note
 
-class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
+
+class NoteAdapter(private val listener: OnNoteClickListener): RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
     private val noteList = ArrayList<Note>()
+
     class NoteHolder(item: View): RecyclerView.ViewHolder(item) {
         private val binding = NoteItemBinding.bind(item)
-        fun bind(note: Note){
+        fun bind(note: Note, listener: OnNoteClickListener){
             Log.d("MyLog", "NoteAdapter: onCreateViewHolder")
             binding.tvTitle.text = note.title
             binding.tvID.text = note.id.toString()
             binding.tvDate.text = note.date
+
+            // Привязка кликов
+            itemView.setOnClickListener {
+                listener.onNoteClick(note)
+            }
+
+            itemView.setOnLongClickListener {
+                listener.onNoteLongClick(note)
+            }
+
         }
     }
 
@@ -34,8 +46,9 @@ class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
 
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
         Log.d("MyLog", "NoteAdapter: onBindViewHolder")
-        holder.bind(noteList[position])
+        holder.bind(noteList[position], listener)
     }
+
 
     fun addNote(note: Note){
         Log.d("MyLog", "NoteAdapter: addNote")
