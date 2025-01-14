@@ -103,6 +103,7 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
         //добовляем все заметки в rvListNotes
         Log.d("MyLog", "MainActivity: Start addAllNotes from database")
         noteViewModel.getAllNotes().observe(this) { notes ->
+            adapter.clearAll()
             if (notes != null) {
                 Log.d("MyLog", "MainActivity: notes is not null")
                 adapter.addNote(notes)
@@ -155,6 +156,9 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
     override fun onNoteClick(note: Note) {
         Log.d("MyLog", "MainActivity: Call onNoteClick in MainActivity")
         Toast.makeText(this, "Clicked: ${note.id}, ${note.title}", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, NoteActivity::class.java)
+        intent.putExtra(Constant.keyNote, note)
+        noteLauncher.launch(intent)
     }
 
     override fun onNoteLongClick(note: Note): Boolean {
@@ -208,5 +212,4 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
         }
         return super.onOptionsItemSelected(item)
     }
-
 }

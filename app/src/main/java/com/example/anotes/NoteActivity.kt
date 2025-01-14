@@ -30,10 +30,13 @@ import java.time.LocalTime
 class NoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNoteBinding
     private lateinit var noteViewModel: NoteViewModel
+    private var noteUp: Note? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("MyLog", "NoteActivity: onCreate start")
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+
 
         binding = ActivityNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -41,6 +44,16 @@ class NoteActivity : AppCompatActivity() {
         // Установка Toolbar
         val toolbar = findViewById<Toolbar>(R.id.tbNote)
         setSupportActionBar(toolbar)
+
+        noteUp = intent.getSerializableExtra("note") as? Note
+        if (noteUp != null){
+            Log.d("MyLog", "NoteActivity: Received note - id=${noteUp!!.id}, title=${noteUp!!.title}, content=${noteUp!!.content}")
+            binding.edTitle.setText(noteUp!!.title)
+            binding.edContent.setText(noteUp!!.content)
+        }
+        else {
+            Log.e("MyLog", "NoteActivity: Received note null")
+        }
 
         // Включение стрелки назад
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -78,34 +91,60 @@ class NoteActivity : AppCompatActivity() {
                 true
             }
             R.id.noteMenuSaveNote ->{
-                Log.d("MyLog", "NoteActivity: click home")
-                val note = Note(
-                    title = binding.edTitle.text.toString(),
-                    content = binding.edContent.text.toString(),
-                    date = LocalDate.now().toString(),
-                    time = LocalTime.now().toString(),
-                    timeStamp = System.currentTimeMillis(), // Текущее время
-                )
+                Log.d("MyLog", "NoteActivity: click noteMenuSaveNote")
+                if(noteUp == null){
+                    Log.d("MyLog", "NoteActivity: save new note")
+                    val note = Note(
+                        title = binding.edTitle.text.toString(),
+                        content = binding.edContent.text.toString(),
+                        date = LocalDate.now().toString(),
+                        time = LocalTime.now().toString(),
+                        timeStamp = System.currentTimeMillis(), // Текущее время
+                    )
 
-                noteViewModel.insertNote(note)
-                noteViewModel.insertResult.observe(this) { result ->
-                    when (result) {
-                        is OperationResult.Success -> {
-                            val newNote = note.copy(id = result.newId)
-                            val intent = Intent().apply {
-                                putExtra(Constant.keyNote, newNote)
+                    noteViewModel.insertNote(note)
+                    noteViewModel.insertResult.observe(this) { result ->
+                        when (result) {
+                            is OperationResult.Success -> {
+                                val newNote = note.copy(id = result.newId)
+                                val intent = Intent().apply {
+                                    putExtra(Constant.keyNote, newNote)
+                                }
+                                setResult(Activity.RESULT_OK, intent)
+                                finish()
                             }
-                            setResult(Activity.RESULT_OK, intent)
-                            finish()
-                        }
-                        is OperationResult.Error -> {
-                            Log.e("MyLog", "NoteActivity: Error inserting note: ${result.exception.message}")
-                            setResult(Activity.RESULT_CANCELED)
-                            finish()
+
+                            is OperationResult.Error -> {
+                                Log.e(
+                                    "MyLog",
+                                    "NoteActivity: Error inserting note: ${result.exception.message}"
+                                )
+                                setResult(Activity.RESULT_CANCELED)
+                                finish()
+                            }
                         }
                     }
+                    true
                 }
-                true
+                else{
+                    Log.d("MyLog", "NoteActivity: update")
+                    noteUp!!.title = binding.edTitle.text.toString()
+                    noteUp!!.content = binding.edContent.text.toString()
+                    noteViewModel.updateNote(noteUp!!)
+                    noteViewModel.insertResult.observe(this) { result ->
+                        when (result) {
+                            is OperationResult.Success -> {
+                                Log.e("MyLog", "NoteActivity: Success update")
+                            }
+                            is OperationResult.Error -> {
+                                Log.e("MyLog", "NoteActivity: Error update note: ${result.exception.message}")
+                            }
+                        }
+                    }
+                    finish()
+                    true
+                }
+
             }
             else -> super.onOptionsItemSelected(item)
         }

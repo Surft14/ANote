@@ -8,11 +8,11 @@ import java.io.Serializable
 //Он создает таблице с именим notes
 data class Note(
     @PrimaryKey(autoGenerate = true)val id: Int? = null,//Первичный ключ с авто инкриментом
-    val title: String,//Столбец для загаловка
-    val content: String,//Столбец для содержания
+    var title: String,//Столбец для загаловка
+    var content: String,//Столбец для содержания
     val date: String,//Столбец для даты
     val time: String,//Столбец для времени
     val timeStamp: Long,//Столбец для времени
-    val listTag: String? = null,//Столбец для списка тегов по умолчанию их нет
-    val category: String = "general",//Столбец для категорий по умолчанию general
+    var listTag: String? = null,//Столбец для списка тегов по умолчанию их нет
+    var category: String = "general",//Столбец для категорий по умолчанию general
 ): Serializable
