@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
     //Всплывающие сообщение об ошибке
     private fun toastErrorCall(){
         Log.d("MyLog", "Call function in MainActivity: toastCall")
-        Toast.makeText(this, "Note received: Error", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Note received: null", Toast.LENGTH_LONG).show()
     }
     //Инициализация rvListNote
     @Suppress("UNCHECKED_CAST")

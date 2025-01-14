@@ -146,7 +146,26 @@ class NoteActivity : AppCompatActivity() {
                 }
 
             }
+            R.id.noteMenuDeleteNote -> {
+                Log.d("MyLog", "NoteActivity: click delete")
+                if (noteUp != null){
+                    noteViewModel.deleteNote(noteUp!!)
+                    noteViewModel.insertResult.observe(this) { result ->
+                        when (result) {
+                            is OperationResult.Success -> {
+                                Log.e("MyLog", "NoteActivity: Success delete")
+                            }
+                            is OperationResult.Error -> {
+                                Log.e("MyLog", "NoteActivity: Error delete note: ${result.exception.message}")
+                            }
+                        }
+                    }
+                }
+                finish()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
+
         }
     }
 
