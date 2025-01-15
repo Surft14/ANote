@@ -1,9 +1,11 @@
 package com.example.anotes.view_model
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anotes.R
 import com.example.anotes.databinding.NoteItemBinding
@@ -12,14 +14,26 @@ import com.example.anotes.db_notes.Note
 
 class NoteAdapter(private val listener: OnNoteClickListener): RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
     private val noteList = ArrayList<Note>()
-
-    class NoteHolder(item: View): RecyclerView.ViewHolder(item) {
+    private val selectedItems = mutableSetOf<Note>() // Хранит выделенные заметки
+    inner class NoteHolder(item: View): RecyclerView.ViewHolder(item) {
         private val binding = NoteItemBinding.bind(item)
+
         fun bind(note: Note, listener: OnNoteClickListener){
             Log.d("MyLog", "NoteAdapter: onCreateViewHolder")
             binding.tvTitle.text = note.title
             binding.tvID.text = note.id.toString()
             binding.tvDate.text = note.date
+
+            // Установка цвета в зависимости от выделения
+            if (selectedItems.contains(note)) {
+                itemView.setBackgroundColor(
+                    ContextCompat.getColor(itemView.context, R.color.red_color)
+                )
+            } else {
+                itemView.setBackgroundColor(
+                    ContextCompat.getColor(itemView.context, R.color.my_dark_primary)
+                )
+            }
 
             // Привязка кликов
             itemView.setOnClickListener {
@@ -27,6 +41,13 @@ class NoteAdapter(private val listener: OnNoteClickListener): RecyclerView.Adapt
             }
 
             itemView.setOnLongClickListener {
+                if (selectedItems.contains(note)) {
+                    selectedItems.remove(note)
+                    itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.my_dark_primary)) // Сброс цвета
+                } else {
+                    selectedItems.add(note)
+                    itemView.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.red_color)) // Выделение
+                }
                 listener.onNoteLongClick(note)
             }
 
@@ -83,6 +104,11 @@ class NoteAdapter(private val listener: OnNoteClickListener): RecyclerView.Adapt
             noteList.remove(note)
         }
 
+    }
+
+    fun clearSelection() {
+        selectedItems.clear()
+        notifyDataSetChanged()
     }
 
 }

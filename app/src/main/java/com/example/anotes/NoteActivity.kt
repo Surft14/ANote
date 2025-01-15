@@ -36,8 +36,6 @@ class NoteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-
-
         binding = ActivityNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -144,7 +142,6 @@ class NoteActivity : AppCompatActivity() {
                     finish()
                     true
                 }
-
             }
             R.id.noteMenuDeleteNote -> {
                 Log.d("MyLog", "NoteActivity: click delete")

@@ -170,7 +170,14 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
             listNoteForDel = ArrayList()
         }
 
-        listNoteForDel?.add(note)
+        if (listNoteForDel!!.contains(note)){// Убираем если есть в списке
+            Log.i("MyLog", "MainActivity: Remove ${note.id}, ${note.title} for delete!")
+            listNoteForDel!!.remove(note)
+        }
+        else {// Добовляем если нету в списке
+            Log.i("MyLog", "MainActivity: Add ${note.id}, ${note.title} for delete!")
+            listNoteForDel?.add(note)
+        }
         return true
     }
 
@@ -198,12 +205,14 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
                         adapter.getNoteList().forEach { Log.i("MyLog", "Note to delete: id=${it.id}, title=${it.title}") }
                         noteViewModel.deleteAllNotesFromDB()
                         adapter.clearAll()
+                        adapter.clearSelection()
                     } else {
                         Log.d("MyLog", "MainActivity: Delete selected notes")
                         Log.d("MyLog", "MainActivity: Notes for deletion: $listNoteForDel")
                         noteViewModel.deleteNotes(listNoteForDel!!)
                         adapter.clearAll()
                         //adapter.removeNotes(listNoteForDel!!)
+                        adapter.clearSelection()
                         listNoteForDel = null
                     }
                 }
