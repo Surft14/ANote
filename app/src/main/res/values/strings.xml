@@ -20,4 +20,6 @@
     <string name="str_no">No</string>
     <string name="str_favorite">Favorite</string>
     <string name="str_category">Categoty</string>
+    <string name="str_new_category">New category</string>
+    <string name="str_delete_category">Delete category(s)</string>
 </resources>

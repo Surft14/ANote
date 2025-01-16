@@ -9,6 +9,8 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -30,6 +32,7 @@ class NoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNoteBinding
     private lateinit var noteViewModel: NoteViewModel
     private var noteUp: Note? = null
+    private lateinit var noteLauncher: ActivityResultLauncher<Intent>
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("MyLog", "NoteActivity: onCreate start")
         super.onCreate(savedInstanceState)
@@ -72,6 +75,14 @@ class NoteActivity : AppCompatActivity() {
         // Использование ViewModelFactory
         val factory = NoteViewModelFactory(repository)
         noteViewModel = ViewModelProvider(this, factory).get(NoteViewModel::class.java)
+
+        noteLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+            if (result.resultCode == Activity.RESULT_OK){
+                Log.d("MyLog", "NoteActivity: received result from CategoryActivity: result_ok")
+            }
+
+        }
+
         Log.d("MyLog", "NoteActivity: end Create ViewModel")
         Log.d("MyLog", "NoteActivity: onCreate finish")
     }
@@ -162,6 +173,12 @@ class NoteActivity : AppCompatActivity() {
                     }
                 }
                 finish()
+                true
+            }
+            R.id.noteMenuCategory -> {
+                Log.d("MyLog", "NoteActivity: click noteMenuCategory")
+                val intent = Intent(this, CategoryActivity::class.java)
+                noteLauncher.launch(intent)
                 true
             }
             else -> super.onOptionsItemSelected(item)

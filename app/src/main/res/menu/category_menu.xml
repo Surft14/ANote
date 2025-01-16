@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/categoryAddNewCategorys"
+        android:title="@string/str_new_category"
+        android:icon="@drawable/ic_add_box"
+        android:orderInCategory="1"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/categoryDelete"
+        android:title="@string/str_delete_category"
+        android:icon="@drawable/ic_delete"
+        android:orderInCategory="2"
+        app:showAsAction="ifRoom"
+        />
+
+</menu>

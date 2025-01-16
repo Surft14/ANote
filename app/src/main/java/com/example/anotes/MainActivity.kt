@@ -31,7 +31,7 @@ import com.example.anotes.view_model.OnNoteClickListener
 class MainActivity : AppCompatActivity(), OnNoteClickListener {
     private lateinit var binding: ActivityMainBinding
     private var adapter = NoteAdapter(this)
-    private lateinit var noteLauncher: ActivityResultLauncher<Intent>
+    private lateinit var mainLauncher: ActivityResultLauncher<Intent>
     private lateinit var note: Note
     private lateinit var notes: List<Note>
     private var listNoteForDel: ArrayList<Note>? = null
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
             insets
         }
         //получаем и обробатываем результаты полученные с других активити
-        noteLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+        mainLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
             if (result.resultCode == Activity.RESULT_OK){
                 Log.d("MyLog", "MainActivity: received result from NoteActivity: result_ok")
                 note = result.data?.getSerializableExtra(Constant.keyNote) as Note
@@ -125,7 +125,6 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
         }*/
 
     }
-
     //Вызов диологово окна
     fun showDeleteСonfirmationDialog(context: Context, onConfirm: () -> Unit){
         Log.d("MyLog", "MainActivity: Call dialog in MainActivity")
@@ -162,7 +161,7 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
         Toast.makeText(this, "Clicked: ${note.id}, ${note.title}", Toast.LENGTH_SHORT).show()
         val intent = Intent(this, NoteActivity::class.java)
         intent.putExtra(Constant.keyNote, note)
-        noteLauncher.launch(intent)
+        mainLauncher.launch(intent)
     }
 
     override fun onNoteLongClick(note: Note): Boolean {
@@ -191,7 +190,7 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
                 // Переход на NoteActivity
                 Log.d("MyLog", "MainActivity: menuNewNote")
                 val intent = Intent(this@MainActivity, NoteActivity::class.java)
-                noteLauncher.launch(intent)
+                mainLauncher.launch(intent)
                 return true
             }
             R.id.mainMenuSearchNote ->{
