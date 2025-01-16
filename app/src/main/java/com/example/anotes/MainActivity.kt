@@ -20,10 +20,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.anotes.constant.Constant
 import com.example.anotes.databinding.ActivityMainBinding
-import com.example.anotes.db_notes.DatabaseProvider
-import com.example.anotes.db_notes.Note
+import com.example.anotes.datebase.db_notes.NDatabaseProvider
+import com.example.anotes.datebase.db_notes.Note
 import com.example.anotes.model.NoteRepository
-import com.example.anotes.view_model.NoteAdapter
+import com.example.anotes.view_model.adapter.NoteAdapter
 import com.example.anotes.view_model.NoteViewModel
 import com.example.anotes.view_model.NoteViewModelFactory
 import com.example.anotes.view_model.OnNoteClickListener
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
         Log.d("MyLog", "MainActivity: Start Create ViewModel")
 
         // Создание репозитория
-        val repository = NoteRepository(DatabaseProvider.getDatabase().noteDao())
+        val repository = NoteRepository(NDatabaseProvider.getDatabase().noteDao())
         //Получаем ViewModel
         // Использование ViewModelFactory
         val factory = NoteViewModelFactory(repository)

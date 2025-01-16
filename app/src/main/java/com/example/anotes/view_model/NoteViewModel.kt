@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.anotes.db_notes.Note
+import com.example.anotes.datebase.db_notes.Note
 import com.example.anotes.model.NoteRepository
 import com.example.anotes.model.OperationResult
 import kotlinx.coroutines.launch

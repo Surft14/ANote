@@ -1,6 +1,5 @@
-package com.example.anotes.view_model
+package com.example.anotes.view_model.adapter
 
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anotes.R
 import com.example.anotes.databinding.NoteItemBinding
-import com.example.anotes.db_notes.Note
+import com.example.anotes.datebase.db_notes.Note
+import com.example.anotes.view_model.OnNoteClickListener
 
 
 class NoteAdapter(private val listener: OnNoteClickListener): RecyclerView.Adapter<NoteAdapter.NoteHolder>() {

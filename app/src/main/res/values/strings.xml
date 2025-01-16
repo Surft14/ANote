@@ -18,4 +18,6 @@
     <string name="str_question_message">This will delete all the notes!</string>
     <string name="str_yes">Yes</string>
     <string name="str_no">No</string>
+    <string name="str_favorite">Favorite</string>
+    <string name="str_category">Categoty</string>
 </resources>

@@ -21,4 +21,11 @@
         android:orderInCategory="3"
         app:showAsAction="ifRoom"
         />
+    <item
+        android:id="@+id/mainMenuFavorite"
+        android:title="@string/str_favorite"
+        android:icon="@drawable/ic_stars_favorite"
+        android:orderInCategory="4"
+        app:showAsAction="ifRoom"
+        />
 </menu>

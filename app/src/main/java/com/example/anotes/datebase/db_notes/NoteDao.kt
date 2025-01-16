@@ -1,4 +1,4 @@
-package com.example.anotes.db_notes
+package com.example.anotes.datebase.db_notes
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

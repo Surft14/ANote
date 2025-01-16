@@ -3,8 +3,8 @@ package com.example.anotes.model
 import android.graphics.Path.Op
 import android.util.Log
 import androidx.lifecycle.LiveData
-import com.example.anotes.db_notes.Note
-import com.example.anotes.db_notes.NoteDao
+import com.example.anotes.datebase.db_notes.Note
+import com.example.anotes.datebase.db_notes.NoteDao
 //Единая точка сопрекосновеняи с данными из базой данных
 @Suppress("UNREACHABLE_CODE")
 class NoteRepository(private val noteDao : NoteDao) {
