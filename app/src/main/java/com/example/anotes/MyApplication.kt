@@ -2,7 +2,7 @@ package com.example.anotes
 
 import android.app.Application
 import android.util.Log
-import com.example.anotes.datebase.db_notes.NDatabaseProvider
+import com.example.anotes.datebase.DatabaseProvider
 
 class MyApplication: Application() {
 
@@ -10,7 +10,7 @@ class MyApplication: Application() {
         super.onCreate()
         // Инициализируем базу данных здесь
         Log.d("MyLog", "MyApplication: onCreate")
-        NDatabaseProvider.initializeDatabase(this)
+        DatabaseProvider.initializeDatabase(this)
     }
 
 }

@@ -3,11 +3,13 @@ package com.example.anotes.model
 import android.graphics.Path.Op
 import android.util.Log
 import androidx.lifecycle.LiveData
+import com.example.anotes.datebase.db_category.CategoryDao
+import com.example.anotes.datebase.db_favorite.FavoriteDao
 import com.example.anotes.datebase.db_notes.Note
 import com.example.anotes.datebase.db_notes.NoteDao
 //Единая точка сопрекосновеняи с данными из базой данных
 @Suppress("UNREACHABLE_CODE")
-class NoteRepository(private val noteDao : NoteDao) {
+class NoteRepository(private val noteDao : NoteDao, private val categoryDao: CategoryDao, private val favoriteDao: FavoriteDao) {
 
 
     //Получаме всех данных

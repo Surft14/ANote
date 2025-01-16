@@ -16,7 +16,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.anotes.constant.Constant
 import com.example.anotes.databinding.ActivityNoteBinding
-import com.example.anotes.datebase.db_notes.NDatabaseProvider
+import com.example.anotes.datebase.DatabaseProvider
 import com.example.anotes.datebase.db_notes.Note
 import com.example.anotes.model.NoteRepository
 import com.example.anotes.model.OperationResult
@@ -63,7 +63,11 @@ class NoteActivity : AppCompatActivity() {
         }
         Log.d("MyLog", "NoteActivity: Start Create ViewModel")
         // Создание репозитория
-        val repository = NoteRepository(NDatabaseProvider.getDatabase().noteDao())
+        val repository = NoteRepository(
+            DatabaseProvider.getDatabase().noteDao(),
+            DatabaseProvider.getDatabase().categoryDao(),
+            DatabaseProvider.getDatabase().favoriteDao()
+        )
         //Получаем ViewModel
         // Использование ViewModelFactory
         val factory = NoteViewModelFactory(repository)
