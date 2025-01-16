@@ -10,13 +10,13 @@ interface NoteDao {
     fun getAllNotes(): LiveData<List<Note>>//Получить все заметки
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)//SQL запрос Если будет заметка с такимже id то произайдет замена
-    suspend fun insert(note: Note): Long//Добавить новую заметку
+    suspend fun insertNote(note: Note): Long//Добавить новую заметку
 
     @Update//SQL запрос
-    suspend fun update(note: Note)//Обноление существующей заметки
+    suspend fun updateNote(note: Note)//Обноление существующей заметки
 
     @Delete//SQL запрос
-    suspend fun delete(note: Note)//Удаление заметки
+    suspend fun deleteNote(note: Note)//Удаление заметки
 
 
     @Query("DELETE FROM notes WHERE id IN (:noteIds)")//SQL запрос
@@ -26,7 +26,7 @@ interface NoteDao {
     suspend fun clearNotes()
 
     @Query("DELETE FROM sqlite_sequence WHERE name = 'notes'")
-    suspend fun resetAutoIncrement()
+    suspend fun resetAutoIncrementNote()
 
 
 }

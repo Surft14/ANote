@@ -13,20 +13,20 @@ interface CategoryDao {
     fun getAllCategorys(): LiveData<List<Category>>//Получить все заметки
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)//SQL запрос Если будет заметка с такимже id то произайдет замена
-    suspend fun insert(category: Category): Long//Добавить новую заметку
+    suspend fun insertCategory(category: Category): Long//Добавить новую заметку
 
     @Update//SQL запрос
-    suspend fun update(category: Category)//Обноление существующей заметки
+    suspend fun updateCategory(category: Category)//Обноление существующей заметки
 
     @Delete//SQL запрос
-    suspend fun delete(category: Category)//Удаление заметки
+    suspend fun deleteCategory(category: Category)//Удаление заметки
 
     @Query("DELETE FROM categorys WHERE id IN (:categoryIds)")//SQL запрос
-    suspend fun deleteNotes(categoryIds: List<Int?>)//Удаление всех заметок
+    suspend fun deleteCategorys(categoryIds: List<Int?>)//Удаление всех заметок
 
     @Query("DELETE FROM categorys")
     suspend fun clearCategorys()
 
     @Query("DELETE FROM sqlite_sequence WHERE name = 'favorites'")
-    suspend fun resetAutoIncrement()
+    suspend fun resetAutoIncrementCategory()
 }

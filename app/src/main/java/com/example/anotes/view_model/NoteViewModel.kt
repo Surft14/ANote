@@ -12,16 +12,20 @@ import kotlinx.coroutines.launch
 
 
 class NoteViewModel(private val repository: NoteRepository):ViewModel() {
-
+    //Храниться результат запроса
     private val _insertResult = MutableLiveData<OperationResult>()
     val insertResult: LiveData<OperationResult> = _insertResult
 
+    //Избранное
+
+    //Категории
+
+    //Заметки
     // Получение списка заметок через LiveData
     fun getAllNotes(): LiveData<List<Note>>{
         Log.d("MyLog", "NoteViewModel: getAllNotes")
         return repository.getAllNotes()
     }
-
     // Функция для добавления заметки
     fun insertNote(note: Note){
         Log.d("MyLog", "NoteViewModel: insertNote start")
@@ -38,7 +42,6 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
             }
         }
     }
-
     // Функция для удаления заметки
     fun deleteNote(note: Note) {
         Log.d("MyLog", "NoteViewModel: deleteNote start")
@@ -64,7 +67,6 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
             }
         }
     }
-
     fun deleteAllNotesFromDB(){
         Log.d("MyLog", "NoteViewModel: deleteAllNotesFromDB start")
         viewModelScope.launch {
@@ -74,7 +76,6 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
             }
         }
     }
-
     // Функция для обновления заметки
     fun updateNote(note: Note) {
         Log.d("MyLog", "NoteViewModel: updateNote start")
@@ -89,8 +90,4 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
             }
         }
     }
-
-
-
-
 }
