@@ -1,4 +1,4 @@
-package com.example.anotes.view_model
+package com.example.anotes.view_model.click_interface
 
 import com.example.anotes.datebase.db_notes.Note
 

@@ -10,6 +10,7 @@ import androidx.room.Update
 @Dao
 interface CategoryDao {
     @Query("SELECT * FROM categorys ORDER BY timeStamp DESC")//SQL запрос
+
     fun getAllCategorys(): LiveData<List<Category>>//Получить все заметки
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)//SQL запрос Если будет заметка с такимже id то произайдет замена

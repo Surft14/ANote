@@ -26,7 +26,7 @@ import com.example.anotes.model.NoteRepository
 import com.example.anotes.view_model.adapter.NoteAdapter
 import com.example.anotes.view_model.NoteViewModel
 import com.example.anotes.view_model.NoteViewModelFactory
-import com.example.anotes.view_model.OnNoteClickListener
+import com.example.anotes.view_model.click_interface.OnNoteClickListener
 
 class MainActivity : AppCompatActivity(), OnNoteClickListener {
     private lateinit var binding: ActivityMainBinding
@@ -67,7 +67,6 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
         }
 
         Log.d("MyLog", "MainActivity: Start Create ViewModel")
-
         // Создание репозитория
         val repository = NoteRepository(
             DatabaseProvider.getDatabase().noteDao(),

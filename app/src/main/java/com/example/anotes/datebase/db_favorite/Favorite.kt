@@ -7,7 +7,8 @@ import com.example.anotes.datebase.db_notes.Note
 @Entity(tableName = "favorites")
 data class Favorite (
     @PrimaryKey(autoGenerate = true)val id: Int? = null,
-    var note: Note,
+    val noteId: Int,
+    var noteTitle: String,
     val date: String,//Столбец для даты
     val time: String,//Столбец для времени
     val timeStamp: Long,//Столбец для времени

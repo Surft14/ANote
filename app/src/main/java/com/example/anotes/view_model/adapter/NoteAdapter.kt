@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.anotes.R
 import com.example.anotes.databinding.NoteItemBinding
 import com.example.anotes.datebase.db_notes.Note
-import com.example.anotes.view_model.OnNoteClickListener
+import com.example.anotes.view_model.click_interface.OnNoteClickListener
 
 
 class NoteAdapter(private val listener: OnNoteClickListener): RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
@@ -19,7 +19,7 @@ class NoteAdapter(private val listener: OnNoteClickListener): RecyclerView.Adapt
         private val binding = NoteItemBinding.bind(item)
 
         fun bind(note: Note, listener: OnNoteClickListener){
-            Log.d("MyLog", "NoteAdapter: onCreateViewHolder")
+            Log.d("MyLog", "NoteAdapter: bind")
             binding.tvTitle.text = note.title
             binding.tvID.text = note.id.toString()
             binding.tvDate.text = note.date

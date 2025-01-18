@@ -1,12 +1,13 @@
 package com.example.anotes.datebase.db_favorite
 
 import androidx.lifecycle.LiveData
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-
+@Dao
 interface FavoriteDao {
     @Query("SELECT * FROM favorites ORDER BY timeStamp DESC")//SQL запрос
     fun getAllFavorites(): LiveData<List<Favorite>>//Получить все заметки

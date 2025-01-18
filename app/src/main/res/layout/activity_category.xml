@@ -16,9 +16,11 @@
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/category_menu" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCategoryList"
         android:layout_width="409dp"
         android:layout_height="665dp"
         app:layout_constraintBottom_toBottomOf="parent"
