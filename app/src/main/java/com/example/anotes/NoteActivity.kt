@@ -33,6 +33,7 @@ class NoteActivity : AppCompatActivity() {
     private lateinit var noteViewModel: NoteViewModel
     private var noteUp: Note? = null
     private lateinit var noteLauncher: ActivityResultLauncher<Intent>
+    private var categoryUp: String = "general"
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("MyLog", "NoteActivity: onCreate start")
         super.onCreate(savedInstanceState)
@@ -79,6 +80,7 @@ class NoteActivity : AppCompatActivity() {
         noteLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
             if (result.resultCode == Activity.RESULT_OK){
                 Log.d("MyLog", "NoteActivity: received result from CategoryActivity: result_ok")
+                categoryUp = result.data?.getStringExtra(Constant.keyCategory) ?: "general"
             }
 
         }
@@ -111,7 +113,8 @@ class NoteActivity : AppCompatActivity() {
                         content = binding.edContent.text.toString(),
                         date = LocalDate.now().toString(),
                         time = LocalTime.now().toString(),
-                        timeStamp = System.currentTimeMillis(), // Текущее время
+                        timeStamp = System.currentTimeMillis(),
+                        category = categoryUp,// Текущее время
                     )
 
                     noteViewModel.insertNote(note)
@@ -142,6 +145,7 @@ class NoteActivity : AppCompatActivity() {
                     Log.d("MyLog", "NoteActivity: update")
                     noteUp!!.title = binding.edTitle.text.toString()
                     noteUp!!.content = binding.edContent.text.toString()
+                    noteUp!!.category = categoryUp
                     noteViewModel.updateNote(noteUp!!)
                     noteViewModel.insertResult.observe(this) { result ->
                         when (result) {

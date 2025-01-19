@@ -36,6 +36,13 @@
                 android:textSize="34sp" />
 
             <TextView
+                android:id="@+id/tvCategoryInNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/str_category_null" />
+
+            <TextView
                 android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

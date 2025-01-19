@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anotes.R
+import com.example.anotes.databinding.CategoryItemBinding
 import com.example.anotes.databinding.NoteItemBinding
 import com.example.anotes.datebase.db_category.Category
 import com.example.anotes.view_model.click_interface.OnCategoryClickListener
@@ -17,12 +18,11 @@ class CategoryAdapter(private val listener: OnCategoryClickListener): RecyclerVi
     private var categoryList = ArrayList<Category>()
     private val selectedItems = mutableSetOf<Category>() // Хранит выделенные заметки
     inner class CategoryHolder(item: View): RecyclerView.ViewHolder(item) {
-        private val binding = NoteItemBinding.bind(item)
+        private val binding = CategoryItemBinding.bind(item)
         fun bind(category: Category, listener: OnCategoryClickListener){
             Log.d("MyLog", "CategoryAdapter: bind")
             binding.tvID.setText(category.id.toString())
-            binding.tvTitle.setText(category.category)
-            binding.tvDate.setText(category.date)
+            binding.tvCategory.setText(category.category)
 
             if (selectedItems.contains(category)){
                 itemView.setBackgroundColor(
@@ -55,8 +55,15 @@ class CategoryAdapter(private val listener: OnCategoryClickListener): RecyclerVi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryHolder {
         Log.d("MyLog", "CategoryAdapter: onCreateViewHolder")
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.category_item, parent, false)
-        return CategoryHolder(view)
+        try{
+            val view =
+                LayoutInflater.from(parent.context).inflate(R.layout.category_item, parent, false)
+            return CategoryHolder(view)
+        }
+        catch (e:Exception){
+            Log.e("MyLog", "CategoryAdapter: onCreateViewHolder end with error ${e.message}")
+            return TODO()
+        }
     }
 
     override fun getItemCount(): Int {
@@ -76,7 +83,7 @@ class CategoryAdapter(private val listener: OnCategoryClickListener): RecyclerVi
 
     fun addCategory(category: Category){
         Log.d("MyLog", "CategoryAdapter: addCategory()")
-        Log.i("MyLog", "CategoryAdapter: addCategory: id category-${category.id}")
+        Log.i("MyLog", "CategoryAdapter: addCategory: id category-${category.id}, name category-${category.category}")
         categoryList.add(category)
         notifyDataSetChanged()
     }

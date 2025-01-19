@@ -22,4 +22,6 @@
     <string name="str_category">Categoty</string>
     <string name="str_new_category">New category</string>
     <string name="str_delete_category">Delete category(s)</string>
+    <string name="str_add_new_category">Add a category</string>
+    <string name="str_category_null">null</string>
 </resources>

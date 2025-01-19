@@ -23,6 +23,7 @@ class NoteAdapter(private val listener: OnNoteClickListener): RecyclerView.Adapt
             binding.tvTitle.text = note.title
             binding.tvID.text = note.id.toString()
             binding.tvDate.text = note.date
+            binding.tvCategoryInNote.text = note.category
 
             // Установка цвета в зависимости от выделения
             if (selectedItems.contains(note)) {

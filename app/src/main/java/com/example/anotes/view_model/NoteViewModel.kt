@@ -135,14 +135,23 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
         }
     }
     //Удаление категорий
-    suspend fun deleteCategorys(categorys: List<Category>){
+    fun deleteCategorys(categorys: List<Category>){
         Log.d("MyLog", "NoteViewModel: deleteCategorys start")
-        val categoryIds = categorys.map { it.id }
-        val result = repository.deleteCategorys(categoryIds)
-        _insertResult.value = result
-        when (result) {
-            is OperationResult.Success -> Log.d("MyLog", "NoteViewModel: deleteCategorys success")
-            is OperationResult.Error -> Log.d("MyLog", "NoteViewModel: deleteCategorys error: ${result.exception.message}")
+        viewModelScope.launch{
+            val categoryIds = categorys.map { it.id }
+            val result = repository.deleteCategorys(categoryIds)
+            _insertResult.value = result
+            when (result) {
+                is OperationResult.Success -> Log.d(
+                    "MyLog",
+                    "NoteViewModel: deleteCategorys success"
+                )
+
+                is OperationResult.Error -> Log.d(
+                    "MyLog",
+                    "NoteViewModel: deleteCategorys error: ${result.exception.message}"
+                )
+            }
         }
     }
     // Удаление всех категорий
