@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.room.Query
 import com.example.anotes.datebase.db_category.Category
 import com.example.anotes.datebase.db_favorite.Favorite
 import com.example.anotes.datebase.db_notes.Note
@@ -188,6 +189,10 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
     fun getAllNotes(): LiveData<List<Note>>{
         Log.d("MyLog", "NoteViewModel: getAllNotes")
         return repository.getAllNotes()
+    }
+    suspend fun searchNotes(searchQuery: String): LiveData<List<Note>>{
+        Log.d("MyLog", "NoteViewModel: searchNotes")
+        return repository.searchNotes(searchQuery)
     }
     // Функция для добавления заметки
     fun insertNote(note: Note){

@@ -206,4 +206,16 @@ class NoteRepository(private val noteDao : NoteDao, private val categoryDao: Cat
             OperationResult.Error(e) // Возвращаем ошибку
         }
     }
+    //Ищем заметки
+    suspend fun searchNotes(searchQuery: String): LiveData<List<Note>>{
+        Log.d("MyLog", "NoteRepository: searchNotes")
+        return try {
+            Log.i("MyLog", "NoteRepository: searchNotes success")
+            noteDao.searchNotes(searchQuery)
+        }
+        catch (e: Exception){
+            Log.e("MyLog", "NoteRepository: searchNotes error ${e.message}")
+            TODO()
+        }
+    }
 }
