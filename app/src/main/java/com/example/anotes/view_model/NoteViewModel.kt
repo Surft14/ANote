@@ -190,7 +190,7 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
         Log.d("MyLog", "NoteViewModel: getAllNotes")
         return repository.getAllNotes()
     }
-    suspend fun searchNotes(searchQuery: String): LiveData<List<Note>>{
+    fun searchNotes(searchQuery: String): LiveData<List<Note>>{
         Log.d("MyLog", "NoteViewModel: searchNotes")
         return repository.searchNotes(searchQuery)
     }

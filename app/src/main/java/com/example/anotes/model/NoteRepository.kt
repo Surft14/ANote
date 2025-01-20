@@ -207,7 +207,7 @@ class NoteRepository(private val noteDao : NoteDao, private val categoryDao: Cat
         }
     }
     //Ищем заметки
-    suspend fun searchNotes(searchQuery: String): LiveData<List<Note>>{
+    fun searchNotes(searchQuery: String): LiveData<List<Note>>{
         Log.d("MyLog", "NoteRepository: searchNotes")
         return try {
             Log.i("MyLog", "NoteRepository: searchNotes success")

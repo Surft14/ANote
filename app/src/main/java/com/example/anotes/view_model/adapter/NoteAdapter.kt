@@ -112,4 +112,11 @@ class NoteAdapter(private val listener: OnNoteClickListener): RecyclerView.Adapt
         notifyDataSetChanged()
     }
 
+    fun updateNotes(notes: List<Note>){
+        Log.d("MyLog", "NoteAdapter: updateNotes")
+        clearAll()
+        clearSelection()
+        addNote(notes)
+    }
+
 }

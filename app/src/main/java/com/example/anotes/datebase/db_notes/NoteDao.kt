@@ -29,7 +29,7 @@ interface NoteDao {
     suspend fun resetAutoIncrementNote()// Обнуление инкримента
 
     @Query("SELECT * FROM notes WHERE title LIKE '%' || :searchQuery || '%' OR '%' || :searchQuery || '%'")
-    suspend fun searchNotes(searchQuery: String): LiveData<List<Note>>// Поиск
+    fun searchNotes(searchQuery: String): LiveData<List<Note>>// Поиск
 
 
 }
