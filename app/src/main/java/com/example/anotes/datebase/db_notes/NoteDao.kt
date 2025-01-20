@@ -28,7 +28,7 @@ interface NoteDao {
     @Query("DELETE FROM sqlite_sequence WHERE name = 'notes'")
     suspend fun resetAutoIncrementNote()// Обнуление инкримента
 
-    @Query("SELECT * FROM notes WHERE title LIKE '%' || :searchQuery || '%' OR '%' || :searchQuery || '%'")
+    @Query("SELECT * FROM notes WHERE title LIKE '%' || :searchQuery || '%' OR category LIKE '%' || :searchQuery || '%'")
     fun searchNotes(searchQuery: String): LiveData<List<Note>>// Поиск
 
 

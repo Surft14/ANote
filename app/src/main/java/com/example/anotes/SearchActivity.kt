@@ -61,7 +61,7 @@ class SearchActivity : AppCompatActivity(), OnNoteClickListener {
         val factory = NoteViewModelFactory(repository)
         noteViewModel = ViewModelProvider(this, factory).get(NoteViewModel::class.java)
         Log.d("MyLog", "SearchActivity: end Create ViewModel")
-
+        init()
         Log.d("MyLog", "onCreate SearchActivity end")
     }
 
