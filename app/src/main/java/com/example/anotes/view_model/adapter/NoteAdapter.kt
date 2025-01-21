@@ -17,7 +17,6 @@ class NoteAdapter(private val listener: OnNoteClickListener): RecyclerView.Adapt
     private val selectedItems = mutableSetOf<Note>() // Хранит выделенные заметки
     inner class NoteHolder(item: View): RecyclerView.ViewHolder(item) {
         private val binding = NoteItemBinding.bind(item)
-
         fun bind(note: Note, listener: OnNoteClickListener){
             Log.d("MyLog", "NoteAdapter: bind")
             binding.tvTitle.text = note.title
