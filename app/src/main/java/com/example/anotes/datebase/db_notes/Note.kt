@@ -15,4 +15,5 @@ data class Note(
     val timeStamp: Long,//Столбец для времени
     var listTag: String? = null,//Столбец для списка тегов по умолчанию их нет
     var category: String = "general",//Столбец для категорий по умолчанию general
+    var favorite: Boolean = false
 ): Serializable

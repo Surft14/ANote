@@ -62,7 +62,6 @@ class CategoryActivity : AppCompatActivity(), OnCategoryClickListener {
         val repository = NoteRepository(
             DatabaseProvider.getDatabase().noteDao(),
             DatabaseProvider.getDatabase().categoryDao(),
-            DatabaseProvider.getDatabase().favoriteDao()
         )
         //Получаем ViewModel
         // Использование ViewModelFactory
@@ -101,6 +100,7 @@ class CategoryActivity : AppCompatActivity(), OnCategoryClickListener {
                     Log.d("MyLog", "CategoryActivity: Delete selected notes")
                     Log.d("MyLog", "CategoryActivity: Categorys for deletion: $listCategoryToDelete")
                     noteViewModel.deleteCategorys(listCategoryToDelete!!)
+                    adapter.clearSelection()
                 }
                 true
             }

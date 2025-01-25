@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
@@ -32,6 +33,7 @@ class NoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNoteBinding
     private lateinit var noteViewModel: NoteViewModel
     private var noteUp: Note? = null
+    private var favoriteNote = false
     private lateinit var noteLauncher: ActivityResultLauncher<Intent>
     private var categoryUp: String = "general"
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +53,7 @@ class NoteActivity : AppCompatActivity() {
             Log.d("MyLog", "NoteActivity: Received note - id=${noteUp!!.id}, title=${noteUp!!.title}, content=${noteUp!!.content}")
             binding.edTitle.setText(noteUp!!.title)
             binding.edContent.setText(noteUp!!.content)
+            favoriteNote = noteUp!!.favorite
         }
         else {
             Log.e("MyLog", "NoteActivity: Received note null")
@@ -70,7 +73,6 @@ class NoteActivity : AppCompatActivity() {
         val repository = NoteRepository(
             DatabaseProvider.getDatabase().noteDao(),
             DatabaseProvider.getDatabase().categoryDao(),
-            DatabaseProvider.getDatabase().favoriteDao()
         )
         //Получаем ViewModel
         // Использование ViewModelFactory
@@ -82,9 +84,7 @@ class NoteActivity : AppCompatActivity() {
                 Log.d("MyLog", "NoteActivity: received result from CategoryActivity: result_ok")
                 categoryUp = result.data?.getStringExtra(Constant.keyCategory) ?: "general"
             }
-
         }
-
         Log.d("MyLog", "NoteActivity: end Create ViewModel")
         Log.d("MyLog", "NoteActivity: onCreate finish")
     }
@@ -92,6 +92,13 @@ class NoteActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         Log.d("MyLog", "NoteActivity: onCreateOptionsMenu")
         menuInflater.inflate(R.menu.note_menu, menu)
+
+        // Ищем MenuItem по ID
+        val item = menu?.findItem(R.id.noteMenuFavorite)
+        if (favoriteNote == true){
+            item?.setIcon(R.drawable.ic_star)
+        }
+
         return true
     }
 
@@ -106,7 +113,7 @@ class NoteActivity : AppCompatActivity() {
             }
             R.id.noteMenuSaveNote ->{
                 Log.d("MyLog", "NoteActivity: click noteMenuSaveNote")
-                if(noteUp == null){
+                if(noteUp == null){// еСли заметки нет и нужно ее создать
                     Log.d("MyLog", "NoteActivity: save new note")
                     val note = Note(
                         title = binding.edTitle.text.toString(),
@@ -115,6 +122,7 @@ class NoteActivity : AppCompatActivity() {
                         time = LocalTime.now().toString(),
                         timeStamp = System.currentTimeMillis(),
                         category = categoryUp,// Текущее время
+                        favorite = favoriteNote,
                     )
 
                     noteViewModel.insertNote(note)
@@ -141,11 +149,12 @@ class NoteActivity : AppCompatActivity() {
                     }
                     true
                 }
-                else{
+                else{// Есди уже есть заметка и нужно ее просто отредактировать
                     Log.d("MyLog", "NoteActivity: update")
                     noteUp!!.title = binding.edTitle.text.toString()
                     noteUp!!.content = binding.edContent.text.toString()
                     noteUp!!.category = categoryUp
+                    noteUp!!.favorite = favoriteNote
                     noteViewModel.updateNote(noteUp!!)
                     noteViewModel.insertResult.observe(this) { result ->
                         when (result) {
@@ -183,6 +192,20 @@ class NoteActivity : AppCompatActivity() {
                 Log.d("MyLog", "NoteActivity: click noteMenuCategory")
                 val intent = Intent(this, CategoryActivity::class.java)
                 noteLauncher.launch(intent)
+                true
+            }
+            R.id.noteMenuFavorite -> {
+                Log.d("MyLog", "NoteActivity: click noteMenuFavorite")
+                if (favoriteNote == false){
+                    Log.i("MyLog", "NoteActivity: click noteMenuFavorite: favoriteNote = true")
+                    item.setIcon(R.drawable.ic_star)
+                    favoriteNote = true
+                }
+                else{
+                    Log.i("MyLog", "NoteActivity: click noteMenuFavorite: favoriteNote = false")
+                    item.setIcon(R.drawable.ic_star_outline)
+                    favoriteNote = false
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -11,10 +11,10 @@ import com.example.anotes.datebase.db_notes.Note
 import com.example.anotes.datebase.db_notes.NoteDao
 //Единая точка сопрекосновеняи с данными из базой данных
 @Suppress("UNREACHABLE_CODE")
-class NoteRepository(private val noteDao : NoteDao, private val categoryDao: CategoryDao, private val favoriteDao: FavoriteDao) {
+class NoteRepository(private val noteDao : NoteDao, private val categoryDao: CategoryDao) {
     //Функции с Избранным
     //Получения всй таблицы
-    fun getAllFavorites(): LiveData<List<Favorite>> {
+    /*fun getAllFavorites(): LiveData<List<Favorite>> {
         Log.d("MyLog", "NoteRepository: getAllFavorites")
         return favoriteDao.getAllFavorites()
     }
@@ -76,7 +76,7 @@ class NoteRepository(private val noteDao : NoteDao, private val categoryDao: Cat
             OperationResult.Error(e)
         }
     }
-
+*/
     //Функции для таблицы с категориями
     //получаем все категории
     fun getAllCategorys(): LiveData<List<Category>>{
@@ -217,5 +217,10 @@ class NoteRepository(private val noteDao : NoteDao, private val categoryDao: Cat
             Log.e("MyLog", "NoteRepository: searchNotes error ${e.message}")
             TODO()
         }
+    }
+    // Получаем все избранные заметки
+    fun getFavoriteListNote(): LiveData<List<Note>>{
+        Log.d("MyLog", "NoteRepository: getFavoriteListNote")
+        return noteDao.getFavoriteListNote()
     }
 }

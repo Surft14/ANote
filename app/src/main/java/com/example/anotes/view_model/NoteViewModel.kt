@@ -21,7 +21,7 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
 
     //Избранное
     //Получение всех категорий
-    fun getAllFavorites(): LiveData<List<Favorite>>{
+/*    fun getAllFavorites(): LiveData<List<Favorite>>{
         Log.d("MyLog", "NoteViewModel: getAllFavorites")
         return repository.getAllFavorites()
     }
@@ -95,7 +95,7 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
                 }
             }
         }
-    }
+    }*/
 
     //Категории
     //Получение всех категорий
@@ -266,5 +266,10 @@ class NoteViewModel(private val repository: NoteRepository):ViewModel() {
                 }
             }
         }
+    }
+    // Получаем заметки в избранном
+    fun getFavoriteListNote(): LiveData<List<Note>>{
+        Log.d("MyLog", "NoteViewModel: getFavoriteListNote")
+        return repository.getFavoriteListNote()
     }
 }

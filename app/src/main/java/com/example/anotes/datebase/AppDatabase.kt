@@ -10,10 +10,10 @@ import com.example.anotes.datebase.db_notes.Note
 import com.example.anotes.datebase.db_notes.NoteDao
 
 //База данных объединяет сущности и DAO. Это класс, который наследует RoomDatabase
-@Database(entities = [Note::class, Category::class, Favorite::class], version = 10)//Указывает, какие таблицы используются в базе данных и версия базы данных если
+@Database(entities = [Note::class, Category::class], version = 11)//Указывает, какие таблицы используются в базе данных и версия базы данных если
 // измениться то версию нужно будет увеличить
 abstract class AppDatabase: RoomDatabase() {
     abstract fun noteDao(): NoteDao//Ссылка на DAO
     abstract fun categoryDao(): CategoryDao// Ссылка на категории
-    abstract fun favoriteDao(): FavoriteDao // ссылка на избранное Dao
+//    abstract fun favoriteDao(): FavoriteDao // ссылка на избранное Dao
 }

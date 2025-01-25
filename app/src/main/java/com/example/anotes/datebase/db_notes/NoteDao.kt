@@ -31,5 +31,7 @@ interface NoteDao {
     @Query("SELECT * FROM notes WHERE title LIKE '%' || :searchQuery || '%' OR category LIKE '%' || :searchQuery || '%'")
     fun searchNotes(searchQuery: String): LiveData<List<Note>>// Поиск
 
+    @Query("SELECT * FROM notes WHERE favorite LIKE 1")
+    fun getFavoriteListNote(): LiveData<List<Note>>
 
 }

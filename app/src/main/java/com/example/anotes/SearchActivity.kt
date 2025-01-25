@@ -54,7 +54,6 @@ class SearchActivity : AppCompatActivity(), OnNoteClickListener {
         val repository = NoteRepository(
             DatabaseProvider.getDatabase().noteDao(),
             DatabaseProvider.getDatabase().categoryDao(),
-            DatabaseProvider.getDatabase().favoriteDao()
         )
         //Получаем ViewModel
         // Использование ViewModelFactory

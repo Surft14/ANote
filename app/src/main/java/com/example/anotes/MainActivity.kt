@@ -71,7 +71,6 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
         val repository = NoteRepository(
             DatabaseProvider.getDatabase().noteDao(),
             DatabaseProvider.getDatabase().categoryDao(),
-            DatabaseProvider.getDatabase().favoriteDao()
         )
         //Получаем ViewModel
         // Использование ViewModelFactory
@@ -152,7 +151,9 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         Log.d("MyLog", "MainActivity: onCreateOptionsMenu")
         menuInflater.inflate(R.menu.main_menu, menu)
+        Log.d("MyLog", "MainActivity: onCreateOptionsMenu finish")
         return true
+
     }
 
     override fun onNoteClick(note: Note) {
@@ -219,6 +220,11 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
                     }
                 }
                 return true
+            }
+            R.id.mainMenuFavorite -> {
+                Log.d("MyLog", "MainActivity: mainMenuDeleteNotes")
+                val intent = Intent(this, FavoriteActivity::class.java)
+                startActivity(intent)
             }
         }
         return super.onOptionsItemSelected(item)
