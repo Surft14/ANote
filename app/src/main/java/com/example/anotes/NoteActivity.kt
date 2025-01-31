@@ -35,7 +35,7 @@ class NoteActivity : AppCompatActivity() {
     private var noteUp: Note? = null
     private var favoriteNote = false
     private lateinit var noteLauncher: ActivityResultLauncher<Intent>
-    private var categoryUp: String = "general"
+    private var categoryUp: String = Constant.firstCategory
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("MyLog", "NoteActivity: onCreate start")
         super.onCreate(savedInstanceState)
@@ -54,6 +54,7 @@ class NoteActivity : AppCompatActivity() {
             binding.edTitle.setText(noteUp!!.title)
             binding.edContent.setText(noteUp!!.content)
             favoriteNote = noteUp!!.favorite
+            categoryUp = noteUp!!.category
         }
         else {
             Log.e("MyLog", "NoteActivity: Received note null")
@@ -95,6 +96,7 @@ class NoteActivity : AppCompatActivity() {
 
         // Ищем MenuItem по ID
         val item = menu?.findItem(R.id.noteMenuFavorite)
+        //Если избранное то меняем иконку
         if (favoriteNote == true){
             item?.setIcon(R.drawable.ic_star)
         }
