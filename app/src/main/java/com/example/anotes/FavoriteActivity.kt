@@ -109,7 +109,7 @@ class FavoriteActivity : AppCompatActivity(), OnNoteClickListener {
         Log.d("MyLog", "FavoriteActivity: onNoteClick")
         Toast.makeText(this, "Clicked: ${note.id}, ${note.title}", Toast.LENGTH_SHORT).show()
         val intent = Intent(this@FavoriteActivity, NoteActivity::class.java)
-        intent.putExtra(Constant.keyNote, note)
+        intent.putExtra(Constant.Key.keyNote, note)
         try{
             favoriteLauncher.launch(intent)
         }

@@ -23,6 +23,8 @@ class NoteAdapter(private val listener: OnNoteClickListener): RecyclerView.Adapt
             binding.tvID.text = note.id.toString()
             binding.tvDate.text = note.date
             binding.tvCategoryInNote.text = note.category
+            
+            
 
             // Установка цвета в зависимости от выделения
             if (selectedItems.contains(note)) {
@@ -71,18 +73,18 @@ class NoteAdapter(private val listener: OnNoteClickListener): RecyclerView.Adapt
     }
 
 
-    fun addNote(note: Note){
+    fun addNote(note: Note){// Добовляем заметку
         Log.d("MyLog", "NoteAdapter: addNote")
         Log.i("MyLog", "NoteAdapter: addNote: id note-${note.id}")
         noteList.add(note)
         notifyDataSetChanged()
     }
 
-    fun getNoteList():ArrayList<Note>{
+    fun getNoteList():ArrayList<Note>{// Получаем список заметок
         return noteList
     }
 
-    fun addNote(listNote: List<Note>){
+    fun addNote(listNote: List<Note>){// Добовляем список заметок
         Log.d("MyLog", "NoteAdapter: addNote(List)")
         for (note in listNote){
             Log.i("MyLog", "NoteAdapter: addNote(List): id note-${note.id}")
@@ -97,7 +99,7 @@ class NoteAdapter(private val listener: OnNoteClickListener): RecyclerView.Adapt
         notifyDataSetChanged() // Сообщить адаптеру об изменениях
     }
 
-    fun removeNotes(notes: List<Note>){
+    fun removeNotes(notes: List<Note>){// Удалить список заметок
         Log.d("MyLog", "NoteAdapter: removeNotes")
         notes.forEach { note ->
             Log.i("MyLog", "Note to delete: id=${note.id}, title=${note.title}")
@@ -106,12 +108,12 @@ class NoteAdapter(private val listener: OnNoteClickListener): RecyclerView.Adapt
 
     }
 
-    fun clearSelection() {
+    fun clearSelection() { // Убрать выбронную заметку
         selectedItems.clear()
         notifyDataSetChanged()
     }
 
-    fun updateNotes(notes: List<Note>){
+    fun updateNotes(notes: List<Note>){// Обновить список заметок
         Log.d("MyLog", "NoteAdapter: updateNotes")
         clearAll()
         clearSelection()

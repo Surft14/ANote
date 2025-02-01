@@ -1,4 +1,4 @@
-package com.example.anotes
+packageCpackage com.example.anotes
 
 import android.app.Activity
 import android.content.Intent
@@ -40,7 +40,7 @@ class SearchActivity : AppCompatActivity(), OnNoteClickListener {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        // Улавливаем inite
         searchLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
             if (result.resultCode == Activity.RESULT_OK){
                 Toast.makeText(this, "Result OK", Toast.LENGTH_LONG).show()
@@ -63,15 +63,15 @@ class SearchActivity : AppCompatActivity(), OnNoteClickListener {
         init()
         Log.d("MyLog", "onCreate SearchActivity end")
     }
-
+    // Нажатие на кнопку назад
     fun onClickHome(view: View){//Кнопка закрывающая нынешние активити
         Log.d("MyLog", "onClickHome SearchActivity")
         finish()
     }
-
+    // Нажате на поиск
     fun onClickSearch(view: View){
         Log.d("MyLog", "Call function in SearchActivity: onClickSearch")
-        noteViewModel.searchNotes(binding.edSearch.text.toString()).observe(this){ notes ->
+        noteViewModel.searchNotes(binding.edSearch.text.toString()).observe(this){ notes ->// Ищим заметки если найдем то добовляем их в rvList
             if (notes == null){
                 Log.i("MyLog", "onClickSearch: notes is null")
                 Toast.makeText(this, "No result searched!!", Toast.LENGTH_LONG).show()
@@ -82,21 +82,21 @@ class SearchActivity : AppCompatActivity(), OnNoteClickListener {
             }
         }
     }
-
+    // инициализация адаптера и rvListNote
     fun init(){
         Log.d("MyLog", "Call function in SearchActivity: init")
         binding.rvListNotes.adapter = adapter
         binding.rvListNotes.layoutManager = GridLayoutManager(this, 1)
     }
-
+    // Слушатель для быстрого нажатия
     override fun onNoteClick(note: Note) {
         Log.d("MyLog", "SearchActivity: Call onNoteClick in SearchActivity")
         Toast.makeText(this, "Clicked: ${note.id}, ${note.title}", Toast.LENGTH_SHORT).show()
         val intent = Intent(this, NoteActivity::class.java)
-        intent.putExtra(Constant.keyNote, note)
+        intent.putExtra(Constant.Key.keyNote, note)
         searchLauncher.launch(intent)
     }
-
+    // Слушателб для долгого нажатия
     override fun onNoteLongClick(note: Note): Boolean {
         Toast.makeText(this, "Long Clicked: ${note.id}, ${note.title}", Toast.LENGTH_SHORT).show()
         return true

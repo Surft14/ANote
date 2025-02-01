@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
         mainLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
             if (result.resultCode == Activity.RESULT_OK){
                 Log.d("MyLog", "MainActivity: received result from NoteActivity: result_ok")
-                note = result.data?.getSerializableExtra(Constant.keyNote) as Note
+                note = result.data?.getSerializableExtra(Constant.Key.keyNote) as Note
                 adapter.clearAll()
                 toastCall(note)
             }
@@ -94,6 +94,7 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
     }
     //Инициализация rvListNote
     @Suppress("UNCHECKED_CAST")
+    // Инициализация адаптера
     private fun init(){
         Log.d("MyLog", "Call function in MainActivity: init")
         binding.apply {
@@ -155,15 +156,15 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
         return true
 
     }
-
-    override fun onNoteClick(note: Note) {
+    // Реализуем слушателей нажатий для item_note одно касание
+    override fun onNoteClick(note: Note) {// При нажатие открываеться заметка
         Log.d("MyLog", "MainActivity: Call onNoteClick in MainActivity")
         Toast.makeText(this, "Clicked: ${note.id}, ${note.title}", Toast.LENGTH_SHORT).show()
         val intent = Intent(this, NoteActivity::class.java)
-        intent.putExtra(Constant.keyNote, note)
-        mainLauncher.launch(intent)
+        intent.putExtra(Constant.Key.keyNote, note)// Упаковаваем заметку
+        mainLauncher.launch(intent)// Запукаем
     }
-
+    // Реализуем слушателей нажатий для item_note долгое касание
     override fun onNoteLongClick(note: Note): Boolean {
         Log.d("MyLog", "MainActivity: Call onNoteLongClick in MainActivity")
         Toast.makeText(this, "Long Clicked: ${note.id}, ${note.title}", Toast.LENGTH_SHORT).show()
@@ -183,7 +184,7 @@ class MainActivity : AppCompatActivity(), OnNoteClickListener {
         }
         return true
     }
-
+    // Слушатель нажатий кнопок toolBar
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.mainMenuNewNote -> {

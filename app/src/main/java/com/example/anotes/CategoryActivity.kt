@@ -78,7 +78,7 @@ class CategoryActivity : AppCompatActivity(), OnCategoryClickListener {
         menuInflater.inflate(R.menu.category_menu, menu)
         return true
     }
-
+    //Слушатель нажатий 
     override  fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId){
             android.R.id.home ->{
@@ -107,7 +107,7 @@ class CategoryActivity : AppCompatActivity(), OnCategoryClickListener {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
+    //Иницализация adapter и rvList и добовляем список
     fun init(){
         Log.d("MyLog", "Call function in CategoryActivity: init")
         binding.apply {
@@ -128,16 +128,16 @@ class CategoryActivity : AppCompatActivity(), OnCategoryClickListener {
         }
 
     }
-
+    // Реалтзация слушителя нажатйи на category_item
     override fun onCategoryClick(category: Category) {
         Log.d("MyLog", "CategoryActivity: onCategoryClick")
         val intent = Intent()
-        intent.putExtra(Constant.keyCategory, category.category)
+        intent.putExtra(Constant.Key.keyCategory, category.category)
         setResult(Activity.RESULT_OK, intent)
         Toast.makeText(this, "Short click", Toast.LENGTH_LONG)
         finish()
     }
-
+    // Реалтзация слушителя нажатйи на category_item долгий клик
     override fun onCategoryLongClick(category: Category): Boolean {
         Log.d("MyLog", "CategoryActivity: onCategoryLongClick")
         if (listCategoryToDelete == null){
@@ -155,8 +155,8 @@ class CategoryActivity : AppCompatActivity(), OnCategoryClickListener {
         Toast.makeText(this, "Long click", Toast.LENGTH_LONG)
         return true
     }
-
-    private fun showAddCategoryDialog(){
+    // показывет диалог 
+    private fun showAddCategoryDialog(){// Для доболвления новой категории
         Log.d("MyLog", "CategoryActivity: showAddCategoryDialog - start")
         // Создаем дилог
         Log.i("MyLog", "CategoryActivity: showAddCategoryDialog - create dialog")

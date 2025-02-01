@@ -35,7 +35,7 @@ class NoteActivity : AppCompatActivity() {
     private var noteUp: Note? = null
     private var favoriteNote = false
     private lateinit var noteLauncher: ActivityResultLauncher<Intent>
-    private var categoryUp: String = Constant.firstCategory
+    private var categoryUp: String = Constant.Category.firstCategory
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("MyLog", "NoteActivity: onCreate start")
         super.onCreate(savedInstanceState)
@@ -47,17 +47,17 @@ class NoteActivity : AppCompatActivity() {
         // Установка Toolbar
         val toolbar = findViewById<Toolbar>(R.id.tbNote)
         setSupportActionBar(toolbar)
-
-        noteUp = intent.getSerializableExtra("note") as? Note
-        if (noteUp != null){
+        // Пытаемся получить заметку если нам его отправили
+        noteUp = intent.getSerializableExtra(Constant,Key.keyNote) as? Note
+        if (noteUp != null){// Сработает если отправили
             Log.d("MyLog", "NoteActivity: Received note - id=${noteUp!!.id}, title=${noteUp!!.title}, content=${noteUp!!.content}")
-            binding.edTitle.setText(noteUp!!.title)
-            binding.edContent.setText(noteUp!!.content)
-            favoriteNote = noteUp!!.favorite
-            categoryUp = noteUp!!.category
+            binding.edTitle.setText(noteUp!!.title)// Доболяем title из заметки
+            binding.edContent.setText(noteUp!!.content)// И content тооже из заметки
+            favoriteNote = noteUp!!.favorite// Добовляем favorite or not
+            categoryUp = noteUp!!.category// добовляем категорию
         }
-        else {
-            Log.e("MyLog", "NoteActivity: Received note null")
+        else {// Сработает если не отправили
+            Log.w("MyLog", "NoteActivity: Received note null")
         }
 
         // Включение стрелки назад
@@ -83,13 +83,13 @@ class NoteActivity : AppCompatActivity() {
         noteLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
             if (result.resultCode == Activity.RESULT_OK){
                 Log.d("MyLog", "NoteActivity: received result from CategoryActivity: result_ok")
-                categoryUp = result.data?.getStringExtra(Constant.keyCategory) ?: "general"
+                categoryUp = result.data?.getStringExtra(Constant.Key.keyCategory) ?: "general"
             }
         }
         Log.d("MyLog", "NoteActivity: end Create ViewModel")
         Log.d("MyLog", "NoteActivity: onCreate finish")
     }
-
+    // Создание меню на toolBar
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         Log.d("MyLog", "NoteActivity: onCreateOptionsMenu")
         menuInflater.inflate(R.menu.note_menu, menu)
@@ -104,7 +104,7 @@ class NoteActivity : AppCompatActivity() {
         return true
     }
 
-    // Обработка нажатия на стрелку назад
+    // Обработка нажатия в toolBar
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -133,7 +133,7 @@ class NoteActivity : AppCompatActivity() {
                             is OperationResult.Success -> {
                                 val newNote = note.copy(id = result.newId)
                                 val intent = Intent().apply {
-                                    putExtra(Constant.keyNote, newNote)
+                                    putExtra(Constant.Key.keyNote, newNote)
                                 }
                                 setResult(Activity.RESULT_OK, intent)
                                 finish()
@@ -172,7 +172,7 @@ class NoteActivity : AppCompatActivity() {
                     true
                 }
             }
-            R.id.noteMenuDeleteNote -> {
+            R.id.noteMenuDeleteNote -> {// Удаляем звметку
                 Log.d("MyLog", "NoteActivity: click delete")
                 if (noteUp != null){
                     noteViewModel.deleteNote(noteUp!!)
@@ -190,7 +190,7 @@ class NoteActivity : AppCompatActivity() {
                 finish()
                 true
             }
-            R.id.noteMenuCategory -> {
+            R.id.noteMenuCategory -> {// Открывем CategoryActivity
                 Log.d("MyLog", "NoteActivity: click noteMenuCategory")
                 val intent = Intent(this, CategoryActivity::class.java)
                 noteLauncher.launch(intent)
@@ -198,12 +198,12 @@ class NoteActivity : AppCompatActivity() {
             }
             R.id.noteMenuFavorite -> {
                 Log.d("MyLog", "NoteActivity: click noteMenuFavorite")
-                if (favoriteNote == false){
+                if (favoriteNote == false){// Доболяем в избранное
                     Log.i("MyLog", "NoteActivity: click noteMenuFavorite: favoriteNote = true")
                     item.setIcon(R.drawable.ic_star)
                     favoriteNote = true
                 }
-                else{
+                else{// Ибираем из избранного
                     Log.i("MyLog", "NoteActivity: click noteMenuFavorite: favoriteNote = false")
                     item.setIcon(R.drawable.ic_star_outline)
                     favoriteNote = false
