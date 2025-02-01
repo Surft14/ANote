@@ -6,12 +6,12 @@ object Constant {//Объект хранящий констатные занче
         const val keyNote = "note"
     }
     object CountChars{
-        const val char = 1
-        const val chars5 = 5
-        const val chars10 = 10
-        const val cahrs15 = 15
-        const val cahrs20 = 20
-        const val cahrs25 = 25
+        const val char = 1// 34sp
+        const val chars5 = 5// 34sp
+        const val chars10 = 10 // 30sp
+        const val chars15 = 15// 25 sp
+        const val chars20 = 20 // 20 sp
+        const val chars25 = 25
     }
     object Category{
         const val firstCategory = "general"

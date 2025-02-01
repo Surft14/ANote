@@ -1,17 +1,17 @@
 package com.example.anotes.view_model.adapter
 
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anotes.R
+import com.example.anotes.constant.Constant
 import com.example.anotes.databinding.CategoryItemBinding
-import com.example.anotes.databinding.NoteItemBinding
 import com.example.anotes.datebase.db_category.Category
 import com.example.anotes.view_model.click_interface.OnCategoryClickListener
-import com.example.anotes.view_model.click_interface.OnNoteClickListener
 import kotlin.collections.ArrayList
 
 class CategoryAdapter(private val listener: OnCategoryClickListener): RecyclerView.Adapter<CategoryAdapter.CategoryHolder>() {
@@ -23,6 +23,26 @@ class CategoryAdapter(private val listener: OnCategoryClickListener): RecyclerVi
             Log.d("MyLog", "CategoryAdapter: bind")
             binding.tvID.setText(category.id.toString())
             binding.tvCategory.setText(category.category)
+
+            if(category.category.length >= Constant.CountChars.char && category.category.length <= Constant.CountChars.chars5){// от 1 до 5
+                binding.tvCategory.setTextSize(TypedValue.COMPLEX_UNIT_SP, 34f)// 34sp
+            }
+            else if (category.category.length > Constant.CountChars.chars5 && category.category.length <= Constant.CountChars.chars10){ // от 5 до 10
+                binding.tvCategory.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f)// 30sp
+            }
+            else if (category.category.length > Constant.CountChars.chars10 && category.category.length <= Constant.CountChars.chars15){ // от 10 до 15
+                binding.tvCategory.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25f)// 25sp
+            }
+            else if (category.category.length > Constant.CountChars.chars15 && category.category.length <= Constant.CountChars.chars20){ // от 15 до 20
+                binding.tvCategory.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)// 25sp
+            }
+            else if (category.category.length > Constant.CountChars.chars20 && category.category.length <= Constant.CountChars.chars25){ // от 20 до 25
+                binding.tvCategory.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)// 18sp
+            }
+            else {// больше 25
+                binding.tvCategory.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)// 16sp
+            }
+
 
             if (selectedItems.contains(category)){
                 itemView.setBackgroundColor(

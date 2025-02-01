@@ -1,4 +1,4 @@
-packageCpackage com.example.anotes
+package com.example.anotes
 
 import android.app.Activity
 import android.content.Intent

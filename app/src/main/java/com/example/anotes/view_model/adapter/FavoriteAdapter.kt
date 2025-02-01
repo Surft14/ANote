@@ -1,12 +1,14 @@
 package com.example.anotes.view_model.adapter
 
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anotes.R
+import com.example.anotes.constant.Constant
 import com.example.anotes.databinding.NoteItemBinding
 import com.example.anotes.datebase.db_notes.Note
 import com.example.anotes.view_model.click_interface.OnFavoriteClickListener
@@ -23,6 +25,26 @@ class FavoriteAdapter(private val listener: OnNoteClickListener): RecyclerView.A
             binding.tvID.text = note.id.toString()
             binding.tvDate.text = note.date
             binding.tvCategoryInNote.text = note.category
+
+            if(note.title.length >= Constant.CountChars.char && note.title.length <= Constant.CountChars.chars5){// от 1 до 5
+                binding.tvTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 34f)// 34sp
+            }
+            else if (note.title.length > Constant.CountChars.chars5 && note.title.length <= Constant.CountChars.chars10){ // от 5 до 10
+                binding.tvTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f)// 30sp
+            }
+            else if (note.title.length > Constant.CountChars.chars10 && note.title.length <= Constant.CountChars.chars15){ // от 10 до 15
+                binding.tvTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25f)// 25sp
+            }
+            else if (note.title.length > Constant.CountChars.chars15 && note.title.length <= Constant.CountChars.chars20){ // от 15 до 20
+                binding.tvTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)// 25sp
+            }
+            else if (note.title.length > Constant.CountChars.chars20 && note.title.length <= Constant.CountChars.chars25){ // от 20 до 25
+                binding.tvTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)// 18sp
+            }
+            else {// больше 25
+                binding.tvTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)// 16sp
+            }
+
 
             // Установка цвета в зависимости от выделения
             if (selectedItems.contains(note)) {
