@@ -48,7 +48,7 @@ class NoteActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.tbNote)
         setSupportActionBar(toolbar)
         // Пытаемся получить заметку если нам его отправили
-        noteUp = intent.getSerializableExtra(Constant,Key.keyNote) as? Note
+        noteUp = intent.getSerializableExtra(Constant.Key.keyNote) as? Note
         if (noteUp != null){// Сработает если отправили
             Log.d("MyLog", "NoteActivity: Received note - id=${noteUp!!.id}, title=${noteUp!!.title}, content=${noteUp!!.content}")
             binding.edTitle.setText(noteUp!!.title)// Доболяем title из заметки
