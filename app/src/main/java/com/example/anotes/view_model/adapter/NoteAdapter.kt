@@ -10,6 +10,7 @@ import com.example.anotes.R
 import com.example.anotes.databinding.NoteItemBinding
 import com.example.anotes.datebase.db_notes.Note
 import com.example.anotes.view_model.click_interface.OnNoteClickListener
+import com.example.constant.Constant
 
 
 class NoteAdapter(private val listener: OnNoteClickListener): RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
@@ -24,7 +25,9 @@ class NoteAdapter(private val listener: OnNoteClickListener): RecyclerView.Adapt
             binding.tvDate.text = note.date
             binding.tvCategoryInNote.text = note.category
             
-            
+            if(note.title > Constant.CountChars.char && note.title <= Constant.CountChars.chars5){
+                
+            }
 
             // Установка цвета в зависимости от выделения
             if (selectedItems.contains(note)) {
